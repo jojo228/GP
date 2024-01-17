@@ -1,0 +1,26 @@
+.main {
+    width: 100%;
+    border-bottom-right-radius: 2rem;
+    border-top-right-radius: 2rem;
+    margin: 0.5rem 2.5rem 1rem 2rem;
+    &__board-container {
+        overflow: hidden;
+        overflow: scroll;
+        margin: 0.5rem 0;
+        height: 80%;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+    }
+    &__card-section {
+        display: grid;
+        grid-template-columns: repeat(8, 4fr);
+        row-gap: 2rem;
+        column-gap: 2rem;
+        & div:nth-child(1) {
+            grid-column: 3 / 7;
+            grid-row: 1;
+        }
+    }
+}

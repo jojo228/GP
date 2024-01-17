@@ -1,0 +1,120 @@
+.facture {
+    width: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    // gap: 1rem;
+    &__logo {
+        height: 150px;
+        width: auto;
+        margin-top: 1rem;
+        display: flex;
+        justify-content: space-between;
+    }
+    &__hd{
+        font-weight: 700;
+        font-size: 13px;
+    }
+    &__tbn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    &__table-container {
+        width: auto;
+    }
+    &__table {
+        border: 2px solid;
+        width: 100%;
+        & th {
+            background-color: #9ec3ee;
+            border-bottom: 1px solid;
+        }
+        & th,
+        td {
+            text-align: left;
+            min-width: auto;
+            font-size: 13px;
+            border-right: 1px solid;
+        }
+    }
+    &__total {
+        margin-top: 1px;
+        border: 2px solid;
+    }
+    &__sst {
+        margin-right: 1rem;
+        margin-left: 1rem;
+        &-content{font-size: 13px;
+        &-ttc{font-weight: bold;}}
+    }
+    &__sst,
+    &__last {
+        display: flex;
+        justify-content: space-between;
+    }
+    &__prelast {
+        font-weight: bold;
+    }
+    &__last {
+        color: #2a81e6;
+        padding-top: 1rem;
+        padding-bottom: 1.5rem;
+    }
+    &__button {
+        font-weight: bold;
+        font-size: 10px;
+        padding: 15px;
+        width: 10%;
+        color: #fff;
+        background: #2a81e6;
+        text-align: center;
+        text-decoration: none;
+        text-transform: uppercase;
+        border-radius: 5px;
+        cursor: pointer;
+        border: transparent;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        -webkit-transition-duration: 0.3s;
+        transition-duration: 0.3s;
+        -webkit-transition-property: box-shadow, transform;
+        transition-property: box-shadow, transform;
+        &:focus,
+        &:hover,
+        &:active {
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+            -webkit-transform: scale(1.1);
+            transform: scale(1.1);
+        }
+    }
+}
+
+.td-input,
+.mt-input {
+    border: none;
+    font-size: 17px;
+    overflow: hidden;
+    background-color: transparent;
+}
+
+.mt-input {
+    min-width: 20rem;
+}
+
+.ss {
+    border-top: 1px solid;
+}
+
+.container {
+    // width: 80%;
+    height: auto;
+    padding: 15px;
+    // border: 1px solid;
+}
+
+.containerfi {
+    width: auto;
+    height: auto;
+    padding: 25px;
+}

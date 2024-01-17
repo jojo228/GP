@@ -1,0 +1,60 @@
+.sales {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    overflow: scroll;
+    border-collapse: collapse;
+    background-color: #dedee6;
+    border-radius: 1rem;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    table-layout: fixed;
+    &__headers {
+        position: -webkit-sticky;
+        position: sticky;
+        font-size: var(--small-font-size);
+        top: 0;
+    }
+    &__table {
+        overflow: hidden;
+        overflow: scroll;
+        overflow-y: auto;
+        display: inline;
+        & tr:nth-child(odd) {
+            background-color: #f8f8fb;
+        }
+        & th,
+        &__data {
+            padding: 0.8rem 0.2rem;
+            text-align: left;
+            min-width: 2rem;
+            font-size: var(--small-font-size);
+        }
+        & tr:hover {
+            background-color: #87add8;
+        }
+    }
+}
+
+caption {
+    text-align: center;
+    font-size: 20px;
+    padding: 25px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+}
+
+.foot {
+    font-weight: bold;
+    font-size: large;
+}
+
+.num {
+    counter-reset: row-num;
+}
+
+.num td:first-child::before {
+    counter-increment: row-num;
+    content: counter(row-num);
+}

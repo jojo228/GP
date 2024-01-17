@@ -1,0 +1,184 @@
+// Add event listener to execute code when the DOM is fully loaded
+document.addEventListener("DOMContentLoaded", () => {
+    // Retrieve elements from template
+    // item inputs
+    const product = document.querySelector("#id_product");
+    const unitPrice = document.querySelector("#id_price");
+    const quantity = document.querySelector("#id_quantity");
+    const designation = document.querySelector("#dsg");
+    // dataset
+    const products = JSON.parse(
+        document.getElementById("products_data").textContent
+    );
+
+    // Create a dataset based on the "designation" values
+    const designationBasedProducts = products.reduce((result, product) => {
+        result[product.designation] = {
+            id: product.id,
+            unit_price: product.unit_price,
+        };
+        return result;
+    }, {});
+
+    // Extract the products' designation from the dataset
+    const productDesignations = products.map((product) => product.designation);
+
+    // Retrieve suppliers dataset from a JSON element and parse it
+    const suppliers = JSON.parse(
+        document.getElementById("suppliers_data").textContent
+    );
+
+    const supplierName = document.getElementById("id_supplier-company_name");
+    const supplierContact = document.getElementById("id_supplier-contact");
+    // Create two datasets based on the "name" and "contact" values
+    const nameBasedCustomers = suppliers.reduce((result, supplier) => {
+        result[supplier.company_name] = {
+            contact: supplier.contact,
+        };
+        return result;
+    }, {});
+    const contactBasedCustomers = suppliers.reduce((result, supplier) => {
+        result[supplier.contact] = {
+            name: supplier.company_name,
+        };
+        return result;
+    }, {});
+
+    // Extract the desired values from the dataset
+    const supplierNames = suppliers.map((supplier) => supplier.company_name);
+    const supplierContacts = suppliers.map((supplier) => supplier.contact);
+
+    // Initialize autocomplete functionality for the input elements
+    autocomplete(designation, designationBasedProducts, productDesignations);
+    autocomplete(supplierName, nameBasedCustomers, supplierNames);
+    autocomplete(supplierContact, contactBasedCustomers, supplierContacts);
+
+    // Function to handle autocomplete functionality
+    function autocomplete(inp, dataset, arr) {
+        let currentFocus;
+
+        inp.addEventListener("input", function(e) {
+            const val = this.value;
+            closeAllLists();
+
+            if (!val) {
+                return false;
+            }
+
+            currentFocus = -1;
+            const container = document.createElement("DIV");
+            container.setAttribute("id", this.id + "autocomplete-list");
+            container.setAttribute("class", "autocomplete-items");
+            this.parentNode.appendChild(container);
+
+            // Generate autocomplete suggestions based on the input value
+            for (let i = 0; i < arr.length; i++) {
+                const item = String(arr[i]);
+
+                if (item.toUpperCase().includes(val.toUpperCase())) {
+                    const idx = item.toUpperCase().indexOf(val.toUpperCase());
+                    const suggestion = document.createElement("DIV");
+                    suggestion.innerHTML = item.substring(0, idx);
+                    suggestion.innerHTML +=
+                        "<strong>" + item.substr(idx, val.length) + "</strong>";
+                    suggestion.innerHTML += item.substr(idx + val.length);
+                    suggestion.innerHTML += '<input type="hidden" value="' + item + '">';
+                    suggestion.addEventListener("click", function(e) {
+                        // Set the selected suggestion as the input value
+                        inp.value = this.getElementsByTagName("input")[0].value;
+
+                        // Update other fields based on the selected suggestion
+                        data = dataset[inp.value];
+
+                        datasetUpdate(data);
+
+                        closeAllLists();
+                    });
+
+                    container.appendChild(suggestion);
+                }
+            }
+        });
+
+        function datasetUpdate(data) {
+            if (inp.id === "id_supplier-company_name") {
+                supplierContact.value = data.contact;
+            } else if (inp.id === "id_supplier-contact") {
+                supplierName.value = data.name;
+            } else if (inp.id === "dsg") {
+                product.value = data.id;
+                unitPrice.value = data.unit_price;
+                quantity.min = 1;
+            }
+        }
+
+        inp.addEventListener("keydown", function(e) {
+            const suggestions = document.getElementById(
+                this.id + "autocomplete-list"
+            );
+
+            if (suggestions) {
+                const items = suggestions.getElementsByTagName("div");
+
+                // Handle arrow key navigation and Enter key selection
+                if (e.keyCode === 40) {
+                    // Arrow DOWN
+                    currentFocus++;
+                    addActive(items);
+                } else if (e.keyCode === 38) {
+                    // Arrow UP
+                    currentFocus--;
+                    addActive(items);
+                } else if (e.keyCode === 13) {
+                    // Enter
+                    e.preventDefault();
+                    if (currentFocus > -1) {
+                        items[currentFocus].click();
+                    }
+                }
+            }
+        });
+
+        function addActive(items) {
+            if (!items) {
+                return false;
+            }
+
+            // Add 'autocomplete-active' class to the currently selected item
+            removeActive(items);
+
+            if (currentFocus >= items.length) {
+                currentFocus = 0;
+            }
+
+            if (currentFocus < 0) {
+                currentFocus = items.length - 1;
+            }
+
+            items[currentFocus].classList.add("autocomplete-active");
+        }
+
+        function removeActive(items) {
+            // Remove 'autocomplete-active' class from all items
+            for (let i = 0; i < items.length; i++) {
+                items[i].classList.remove("autocomplete-active");
+            }
+        }
+
+        function closeAllLists(except) {
+            // Close all autocomplete lists except the current one
+            const lists = document.getElementsByClassName("autocomplete-items");
+
+            for (let i = 0; i < lists.length; i++) {
+                if (except != lists[i] && except != inp) {
+                    lists[i].parentNode.removeChild(lists[i]);
+                }
+            }
+        }
+
+        document.addEventListener("click", function(e) {
+            // Close all autocomplete lists when clicking outside of them
+            closeAllLists(e.target);
+        });
+    }
+});

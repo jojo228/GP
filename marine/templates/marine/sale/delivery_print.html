@@ -1,0 +1,96 @@
+{% load static %}{% load humanize %}
+{% load mathfilters %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+    <style>
+        @media print {
+      #printPageButton {
+        display: none;
+      }
+    }
+    </style>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{% static 'marine/img/logo.jpeg' %}" type="image/icon type">
+
+
+    <link rel="stylesheet" href="{% static 'marine/css/jeedoc.css' %}" /> 
+    <title>Facture</title>
+</head>
+
+<body>
+       
+    <div class="facture">
+        <div class="facture__logo">
+            <img src="{% static 'marine/img/GP_Annexe_1.png' %}" alt="" style="width: 300px; height: 150px;">
+            <img src="{% static 'marine/img/bm2.png' %}" alt="" style="width: 300px; height: 150px;">
+          </div>
+        <div class="facture__table-container facture__first">
+            <table class="facture__table" style="text-align: center;">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        
+                        <th>Facture N°</th>
+
+			<th>Type</TH>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                    <td class="facture__hd">{{sale.date_created|date:"d-m-Y"}}</td>
+                    <td class="facture__hd">{{sale.bill_number}}</td>
+		<td class="facture__hd">BORDEREAU DE LIVRAISON</td>
+                    
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="facture__table-container facture__second">
+            <table class="facture__table" style="text-align: center;">
+                <thead>
+                    <tr>
+                        <th>DESIGNATIONS</th>
+                        <th>QTE</th>
+                        
+                    </tr>
+                </thead>
+                <tbody class="facture__tbody" style="text-align: center;">
+                    {% if items %}
+                        {% for item in items %}
+
+                    <tr>
+                        <td>{{item.product.designation}}</td>
+                        <td>{{item.quantity|intcomma}}</td>
+                        
+                    </tr>
+                    {% endfor %} {% endif %}
+                </tbody>
+            </table>
+
+            
+
+            
+            <div class="facture__last">
+                <span class="facture__sst-content">Livreur</span>
+                <span class="facture__sst-content">Receveur</span>
+            </div>
+        </div>
+
+        <div class="d-grid gap-2 col-2 mx-auto">
+
+            <a id="printPageButton" href="{{sale.get_absolute_url}}">Retour</a>
+			
+			
+		</div>
+
+   </body>
+<script src="{% static 'marine/js/facture.js' %}"></script>
+</html>

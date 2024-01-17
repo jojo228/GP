@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+{% load static %}{% load humanize %}
+
+{% block title %}
+    <title>Ventes</title>
+{% endblock title %}
+
+{% block sale %}
+<a class="sidebar__link active" href="{% url 'list_sale' %}">
+{% endblock sale %}
+
+{% block main %}
+<div class="facture">
+  
+    <!-- ==== BILL'S HEADER ==== -->
+    <div class="facture__table-container facture__first">
+        <figure>
+            <figcaption>Facture Vente</figcaption>
+            <table class="facture__table">
+                <thead>
+                    <tr>
+                    <th>Date</th>
+                    <th>Client</th>
+                    <th>Contact</th>
+                    <th>N° Facture</th>
+                    <th>Catégorie</th> 
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                    <td class="facture__hd">{{sale.date_created|date:"d-m-Y"}}</td>
+                    <td class="facture__hd">{{sale.customer}}</td>
+                    <td class="facture__hd">{% if sale.customer.contact %} {{sale.customer.contact}} {% else %} --- {% endif %}</td>
+                    <td class="facture__hd">{{sale.bill_number}}</td>
+                    <td class="facture__hd">{{sale.get_category_display}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </figure>
+    </div>
+  
+    <div class="facture__table-container facture__second">
+
+        <!-- ==== BILL'S ITEMS ==== -->
+        <figure>
+            <figcaption>Contenu de la facture</figcaption>
+            <table class="facture__table">
+                <thead>
+                    <tr>
+                    <th>DESIGNATIONS</th>
+                    <th>QTE</th>
+                    <th>PU</td>
+                    <th>PRIX REMISE</td>
+                    <th>MONTANT HT</th>
+                    </tr>
+                </thead>
+                <tbody class="facture__tbody">
+                    {% if items %}
+                        {% for item in items %}
+                            <tr>
+                                <td>{{item.product.designation}}</td>
+                                <td>{{item.quantity|intcomma}}</td>
+                                <td>{{item.price|intcomma}}</td>
+                                <td>{{item.discount_price|intcomma}}</td>
+                                <td class="subtotal">{{item.total_amount|intcomma}}</td>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}     
+                </tbody>
+            </table>
+        </figure>
+
+        <!-- ==== BILL'S FOOTER ==== -->
+        <div class="facture__total">
+            <div class="facture__sst">
+                <span class="facture__sst-content-ttc">MONTANT TTC</span>
+                <span class="facture__sst-content-ttc">{{sale.total_amount|intcomma}}</span>
+            </div>
+        </div>
+        <div class="facture__prelast">
+            <label class="facture__sst-content">Montant en lettre:</label>
+            <span class="facture__sst-content">{{sale.amount_in_letters}} F CFA</span>
+        </div>
+        <div class="facture__last">
+            <span class="facture__sst-content">NB: Toutes marchandises livrées ne sont ni échangées ni reprises</span>
+            <span class="facture__sst-content">Signature</span>
+        </div>
+    </div>
+
+    <div class="add__buttons">
+        <a class="btn-sqr btn-blue" href="{{ sale.print_absolute_url }}">Imprimer</a>
+        
+        {% if sale.category == 'CR' %}
+            <a class="btn-sqr btn-brown" href="{% url 'list_billing' sale.id %}">Règlements</a>
+        {% endif %}
+
+        {% if user.is_staff or sale.is_temporary %}
+            <a class="btn-sqr btn-red" href="{{ sale.get_delete_url }}">Supprimer</a>
+        {% endif %}
+
+        {% if user.is_staff or sale.category == 'PF' or sale.is_temporary %}
+            <a class="btn-sqr btn-green"  href="{{ sale.get_update_url }}">Editer</a>
+        {% endif %}
+
+	<a class="btn-sqr btn-blue" href="{% url 'print_delivery' sale.id %}">Bon de livraison</a>
+        
+    </div>
+</div>
+
+{% endblock main %}

@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}{% load humanize %}
+
+{% block title %}
+    <title>Fournisseurs</title>
+{% endblock title %}
+
+{% block supplier %}
+<a class="sidebar__link active" href="{% url 'list_supplier' %}">
+{% endblock supplier %}
+
+{% block main %}
+<div class="user">
+    <div class="user__form">
+        <div class="add">
+
+            {% for field, value in supplier.items %}
+            <div class="user__div add__name">
+                <span class="input-bx">{{value}}</span>
+                <label for=""  class="input-lbl">{{field}}</label>
+            </div>
+            {% endfor %}
+            
+            <div class="add__buttons">
+                <a class="btn-sqr-lg btn-red" href="{{ supplier_object.get_delete_url }}">Supprimer</a>
+                <a class="btn-sqr-lg btn-green"  href="{{ supplier_object.get_update_url }}">Editer</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock main %}

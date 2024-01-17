@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% load static %}{% load humanize %}
+
+
+{% block title %}
+    <title>Reçu de Paiment</title>
+{% endblock title %}
+
+{% block sale %}
+<a class="sidebar__link active" href="{% url 'list_sale' %}">
+{% endblock sale %}
+
+{% block main %}
+<div class="user">
+    <div class="user__form">
+
+        <div class="add">
+
+            
+            
+                {% for field, value in billing.items %}
+                
+                    <div class="user__div add__name ">
+
+                        <span class="input-bx">{{value}}</span>
+                        <label for=""  class="input-lbl">{{field}}</label>
+                    </div>
+                    
+                {% endfor %}
+
+                
+            
+            <div class="add__buttons">
+                
+                <a class="btn-sqr-lg btn-red" href="{{ billing_object.get_delete_url }}">Supprimer</a>
+
+                <a class="btn-sqr-lg btn-blue" href="{{ billing_object.print_absolute_url }}">Imprimer</a>
+
+                <a class="btn-sqr-lg btn-green" href="{{ billing_object.get_update_url }}">Editer</a>
+        
+                
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock main %}

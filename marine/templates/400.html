@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% load static %}{% load humanize %}
+
+
+{% block title %}
+    <title>Erreur 400</title>
+{% endblock title %}
+
+{% block main %}
+    <div style="display: grid; justify-items: center;">
+      <div>
+        <p style="font-size: 4rem;">Oooops! Mauvaise requête</p>
+        <p style="font-size: 2rem;">Erreur 400</p>
+        <p>Votre requête est erronée ou corrompue.</p>
+        <p>Cliquez <a href="{{request.META.HTTP_REFERER}}" style="font-size: 1.5rem;">ici</a> pour revenir à la page précédente.</p>
+      </div>
+    </div>
+{% endblock main %}

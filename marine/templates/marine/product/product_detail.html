@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% load static %}{% load humanize %}
+
+
+{% block title %}
+    <title>Produits</title>
+{% endblock title %}
+
+{% block product %}
+<a class="sidebar__link active" href="{% url 'list_product' %}">
+{% endblock product %}
+
+{% block main %}
+<div class="user">
+    <div class="user__form">
+
+        <div class="add__odd">
+
+                    <div class="user__div add__name ">
+                        <span class="input-bx">{{product.designation}}</span>
+                        <label for=""  class="input-lbl">désignation</label>
+                    </div>
+                    <div class="user__div add__name ">
+                        <span class="input-bx">{{product.unit_price|intcomma}}</span>
+                        <label for=""  class="input-lbl">prix unitaire</label>
+                    </div>
+                    <div class="user__div add__name ">
+                        <span class="input-bx">{{product.discount_price|intcomma}}</span>
+                        <label for=""  class="input-lbl">prix remise</label>
+                    </div>
+                    <div class="user__div add__name ">
+                        <span class="input-bx">{{product.marine_warehouse_related.quantity_alert|intcomma}}</span>
+                        <label for=""  class="input-lbl">alerte qté en magasin</label>
+                    </div>
+                    <div class="user__div add__name ">
+                        <span class="input-bx">{{store.quantity_alert|intcomma}}</span>
+                        <label for=""  class="input-lbl">alerte qté en boutique</label>
+                    </div>
+                    <div class="user__div add__name ">
+                        <span class="input-bx">{{product.marine_warehouse_related.quantity|intcomma}}</span>
+                        <label for=""  class="input-lbl">quantité en magasin</label>
+                    </div>
+                    <div class="user__div add__name ">
+                        <span class="input-bx">{{product.marine_warehouse_related.quantity_amount|intcomma}}</span>
+                        <label for=""  class="input-lbl">montant quantité en magasin</label>
+                    </div>
+                    
+                    {% if store %}
+                        <div class="user__div add__name ">
+                            <span class="input-bx">{{store.quantity|intcomma}}</span>
+                            <label for=""  class="input-lbl">quantité en boutique</label>
+                        </div>
+                        <div class="user__div add__name ">
+                            <span class="input-bx">{{store.quantity_amount|intcomma}}</span>
+                            <label for=""  class="input-lbl">montant quantité en boutique</label>
+                        </div>
+                        <div class="user__div add__name ">
+                            <span class="input-bx">{{sold.quantity|intcomma}}</span>
+                            <label for=""  class="input-lbl">quantité vendue</label>
+                        </div>
+                        <div class="user__div add__name ">
+                            <span class="input-bx">{{sold.quantity_amount|intcomma}}</span>
+                            <label for=""  class="input-lbl">montant quantité vendue</label>
+                        </div>
+                    {% endif %}
+                    
+                   
+                   
+
+
+                
+            
+            <div class="add__buttons">
+                <a class="btn-sqr-lg btn-red" href="{{ product.get_delete_url }}">Supprimer</a>
+                <a class="btn-sqr-lg btn-green"  href="{{ product.get_update_url }}">Editer</a>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock main %}

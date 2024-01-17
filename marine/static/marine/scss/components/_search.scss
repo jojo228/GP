@@ -1,0 +1,27 @@
+    .search {
+        display: flex;
+        &__icon {
+            height: 2rem;
+            width: 6rem;
+            background-color: rgb(232, 232, 241);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-top-left-radius: 0.9rem;
+            border-bottom-left-radius: 0.9rem;
+            & svg {
+                color: #555555;
+            }
+        }
+        &__input {
+            border: none;
+            background-color: rgb(232, 232, 241);
+            border-top-right-radius: 0.9rem;
+            border-bottom-right-radius: 0.9rem;
+            color: #464646;
+            &:focus {
+                border: none;
+                outline: none;
+            }
+        }
+    }

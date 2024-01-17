@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}{% load humanize %}
+
+{% block title %}
+    <title>Produits</title>
+{% endblock title %}
+
+{% block product %}
+<a class="sidebar__link active" href="{% url 'list_product' %}">
+{% endblock product %}
+
+{% block main %}
+<div class="user">
+    <form action="{% url 'create_product' %}" class="user__form" method="post">
+        {% csrf_token %}
+        <div class="add">
+
+            {% for field in form %}
+                <div class="user__div add__name">
+
+                    {{field}}
+                    <label for="{{ field.id_for_label }}"  class="input-lbl">{{field.label}}{{sold.prefix}}</label>
+
+                </div>
+            {% endfor %}
+
+            <div class="add__buttons">
+                <a class="btn-sqr-lg btn-red" href="{% url 'list_product' %}">Annuler</a>
+                <input class="btn-sqr-lg btn-green"  type="submit" name="" value="Ajouter">
+            </div>
+            
+        </div>
+    </form>
+</div>
+{% endblock main %}

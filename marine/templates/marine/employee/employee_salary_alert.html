@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}{% load humanize %}
+
+{% block title %}
+    <title>Salary alert</title>
+{% endblock title %}
+
+{% block sale %}
+<a class="sidebar__link active" href="{% url 'list_sale' %}">
+{% endblock sale %}
+
+{% block main %}
+
+    <!-- ==== LIST OF SALES ==== -->
+    <div class="sales">
+        <table class="sales__table">
+            <caption>Employés à rénumérer</caption>
+            
+            <tr class="sales__headers">
+                <th id='ref'>Nom</th>
+                <th id='number'>Poste</th>
+                <th id='amount'>Salaire</th>
+                <th id='amount'>Date</th>
+                
+               
+            </tr>
+
+            {% for employee in object_list  %}
+                <tr tr onclick="window.location='{{ billing.get_absolute_url }}';">
+                    <td>{{employee.user.first_name}}</td>
+                    <td>{{employee.position}}</td>
+                    <td>{{employee.salary}}</td>
+                    
+                    <td>{{employee.salary_payment_date|date:"d-m-Y"}}</td>
+                </tr>
+            {% endfor %}
+            
+        </table>
+    </div>
+
+    
+{% endblock main %}

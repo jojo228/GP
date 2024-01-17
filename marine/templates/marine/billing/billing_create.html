@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}
+    <title>Billings</title>
+{% endblock title %}
+
+{% block sale %}
+<a class="sidebar__link active" href="{% url 'list_sale' %}">
+{% endblock sale %}
+
+{% block main %}
+<div class="user">
+    
+        <form action= "{% if request.resolver_match.url_name == 'update_billing' %} {{billing.get_update_url}} {% else %} {% url 'create_billing' sale.id %} {% endif %}" class="user__form" method="post">
+    
+        {% csrf_token %}
+        <div class='add'>
+
+            
+            <div class="user__div add__name">
+                <span class="input-bx">{{sale.bill_number}}</span>
+                <label for=""  class="input-lbl">№ Facture</label>
+            </div>
+            <div class="user__div add__name">
+                <span class="input-bx">{{sale.customer}}</span>
+                <label for=""  class="input-lbl">Client</label>
+            </div>
+            <div class="user__div add__name">
+                <span class="input-bx">{{sale.date_created|date:"Y-m-d H:i"}}</span>
+                <label for=""  class="input-lbl">Date de la facture</label>
+            </div>
+            <div class="user__div add__name">
+                <span class="input-bx">{{sale.total_amount}}</span>
+                <label for=""  class="input-lbl">Montant Total</label>
+            </div>
+            <div class="user__div add__name">
+                <span class="input-bx">{% if last_billing.payment_date %} {{last_billing.payment_date|date:"Y-m-d H:i"}} {% else %} Néant {% endif %}</span>
+                <label for=""  class="input-lbl">Dernier Paiment</label>
+            </div>
+            <div class="user__div add__name">
+                <span class="input-bx">{% if last_billing.amount_paid %} {{last_billing.amount_paid}} {% else %} Néant {% endif %}</span>
+                <label for=""  class="input-lbl">Montant Payé</label>
+            </div>
+            <div class="user__div add__name">
+                <span class="input-bx">{% if last_billing.next_payment_date %} {{last_billing.next_payment_date|date:"Y-m-d"}} {% else %} Néant {% endif %}</span>
+                <label for=""  class="input-lbl">Date Prochain Paiment</label>
+            </div>
+            <div class="user__div add__name">
+                <span class="input-bx"> {% if last_billing.amount_left %}{{last_billing.amount_left}} {% else %} {{sale.total_amount}} {% endif %}</span>
+                <label for=""  class="input-lbl">Reste A Payer</label>
+            </div>
+            
+            
+            <div class="user__div add__name">
+                
+                <input type="number" name="amount_paid" value="0" class="input-bx" required="" id="id_amount_paid">
+                <label for="id_amount_paid" class="input-lbl">Montant payé</label>
+            </div>
+
+            <div class="user__div add__name">
+                
+                <input type="date" name="next_payment_date" class="input-bx" required="" id="id_next_payment_date">
+                <label for="id_next_payment_date" class="input-lbl">Date du prochain paiment</label>
+            </div>
+
+            <div class="add__buttons">
+                <a class="btn-sqr-lg btn-red" href="{% if request.resolver_match.url_name == 'update_billing' %} {% url 'list_billing'  billing.sale.id %} {% else %} {% url 'list_billing'  sale.id %} {%endif%}">Annuler</a>
+                <input class="btn-sqr-lg btn-green"  type="submit" name="" value="{% if request.resolver_match.url_name == 'update_billing' %} Editer {% else %} Valider {%endif%}">
+            </div>
+        </div>
+    </form>
+
+  
+</div>
+{% endblock main %}

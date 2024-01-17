@@ -1,0 +1,132 @@
+
+{% load static %}{% load humanize %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+    <style>
+        @media print {
+      #printPageButton {
+        display: none;
+      }
+	#form {
+        display: none;
+      }
+    }
+    </style>
+
+<head>
+
+	<title>Liste des factures</title>
+	<!-- HTML5 Shim and Respond.js IE11 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 11]>
+		<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+		<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
+	<!-- Meta -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+
+	<!-- Favicon icon -->
+	<link rel="icon" href="" type="image/x-icon">
+	<!-- fontawesome icon -->
+	<link rel="stylesheet" type="text/css" href="./static/assets/fonts/fontawesome/css/fontawesome-all.min.css">
+	<!-- animation css -->
+	<link rel="stylesheet" type="text/css" href="./static/assets/plugins/animation/css/animate.min.css">
+
+	<link rel="stylesheet" type="text/css"
+		href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+		integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+	<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+	<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+
+
+
+	<!-- vendor css -->
+	<link rel="stylesheet" type="text/css" href="./static/assets/css/style.css">
+	<link rel="stylesheet" href="./static/assets/css/dash.css">
+
+    <style>
+        .vl {
+          border-left: 3px solid rgb(2, 5, 2);
+          height: 130px;
+        }
+    </style>
+</head>
+
+<body class="">
+    <!-- ==== LIST OF SALES ==== -->
+    <div class="sales">
+	<form id="form" method="get">
+            {{sale_date_filter.form}}
+
+        <button class="btn btn-primary btn-sm" type="submit">Filtrer</button>
+        </form>
+	
+        <table class="sales__table">
+
+            
+            
+            <tr class="sales__headers">
+                <th id='ref'>№ Facture</th>
+                <th id='customer'>Client</th>
+                <th id='number'>NOMBRE DE PRODUITS</th>
+                <th id='amount'>Montant</th>
+                <th id='category'>Catégorie</th>
+                <th id='date'>Date de vente</th>
+                <th id='seller'>Vendeur</th>
+                {% if user.is_staff %}
+                <th id='shop'>Boutique</th>
+                {% endif %}
+            </tr>
+	{% if not date_filter_queryset.empty %}
+           {% for sale in object_list %}
+                <tr >
+                    <td>{{sale.bill_number}}</td>
+                    <td>{{sale.customer}}</td>
+                    <td>{{sale.items_number|intcomma}}</td>
+                    <td>{{sale.total_amount|intcomma}}</td>
+                    <td>{{sale.get_category_display}}</td>
+                    <td>{{sale.date_created|date:"d-m-Y"}}</td>
+                    <td>{{sale.added_by}}</td>
+                    {% if user.is_staff %}
+                    <td>{{sale.shop}}</td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+	   {% endif %}
+            
+        </table>
+    </div>
+    
+
+    <br>
+
+    <div class="d-grid gap-2 col-2 mx-auto" style="text-align: center;">
+    
+        <a id="printPageButton" href="{% url 'list_sale' %}">Retour</a>
+    
+        <button id="printPageButton" class="btn btn-outline-info hidden-print" onclick="imprimer()"><span
+                class="glyphicon glyphicon-print" aria-hidden="true"></span>Imprimer</button>
+    </div>
+    
+    
+    
+
+    
+    <script>function imprimer() {
+        window.print();
+    }
+    </script>
+    
+    </body>
+    
+    </html>
+    
+   

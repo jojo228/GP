@@ -1,0 +1,42 @@
+{% extends 'marine/sale/sale_base.html' %}
+
+
+{% block title %}
+<title>Create Sale</title>
+{% endblock title %}
+
+                                    
+{% block update-saleitem_url %}
+<a href="{{item.get_create_sale_update_url}}">
+{% endblock update-saleitem_url %}
+
+
+{% block delete-saleitem_url %}
+<a href="{{item.get_create_sale_delete_url}}">
+{% endblock delete-saleitem_url %}
+                                           
+
+{% block saleitem-form_url %}
+<form autocomplete="off" class="vente__form" action= {% if request.resolver_match.url_name == 'create_sale_update_saleitem' %} "{% url 'create_sale_update_saleitem' sale_id object.id %}" {% else %} "{% url 'create_sale_create_saleitem' sale_id %}" {% endif %}  method="post">
+{% endblock saleitem-form_url %}
+                     
+            
+{% block saleitem-submit_value %}
+<input type="submit" name="option" value= {% if request.resolver_match.url_name == 'create_sale_update_saleitem' %} "Editer" {% else %} "Ajouter" {% endif %} id="submit" class="btn" />
+{% endblock saleitem-submit_value %}
+ 
+
+{% block sale-form_url %}
+<form class="user__form" action=" {% if old_sale_id %} {% url 'update_sale'  sale_id %} {% else %} {% url 'create_sale'  sale_id %} {%endif%}" method="post">
+{% endblock sale-form_url %}
+                  
+
+{% block sale-cancel_url %}
+<a class="btn-sqr-lg btn-red" href="{% url 'delete_sale' sale_id %}">Annuler</a> 
+{% endblock sale-cancel_url %}
+
+
+{% block sale-submit_value %}
+<input class="btn-sqr-lg btn-green" type="submit" name="vendre" value="{% if old_sale_id %} Valider {% else %} Valider {%endif%}" />   
+{% endblock sale-submit_value %}
+                

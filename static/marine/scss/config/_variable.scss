@@ -1,0 +1,68 @@
+/*========== GOOGLE FONTS ============*/
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+/*========== VARIABLE CSS ============*/
+
+ :root {
+    --header-height: 3rem;
+    /*========== Colors ============*/
+    --hue: 198; // Yellow: 55 | Red: 18 | Green: 143
+    --sat: 80%; // Yellow: 87% | Red: 75% | Green: 74%
+    --first-color: hsl(var(--hue), var(--sat), 60%);
+    --first-color-light: hsl(var(--hue), var(--sat), 85%);
+    --first-color-lighten: hsl(var(--hue), var(--sat), 80%);
+    --first-color-alt: hsl(var(--hue), var(--sat), 53%);
+    --green-color: hsl(143, 74%, 28%);
+    --red-color: hsl(18, 75%, 46%);
+    --yellow-color: hsl(55, 85%, 61%);
+    --title-color: hsl(var(--hue), 4%, 15%);
+    --text-color: hsl(var(--hue), 4%, 35%);
+    --text-color-light: hsl(var(--hue), 4%, 65%);
+    --body-color: hsl(var(--hue), 0%, 100%);
+    --container-color: white; //#56B6FC; //#e6e4ff;
+    --scroll-bar-color: hsl(var(--hue), 4%, 85%);
+    --scroll-thumb-color: hsl(var(--hue), 4%, 75%);
+    --footer-color: hsl(var(--hue), 55%, 63%);
+    --input-color: #80868B;
+    --border-color: #DADCE0;
+    --label-backgound: white;
+    --sidebar-color: #000080; //#03224c;
+    /*========== Font and typography ============*/
+    --body-font: 'Poppins', sans-serif;
+    --biggest-font-size: 2rem;
+    --h2-font-size: 1.25rem;
+    --h3-font-size: 1.125rem;
+    --normal-font-size: .938rem;
+    --small-font-size: .831rem;
+    --smaller-font-size: .75rem;
+    // Responsive typography
+    @media screen and(min-width: 768px) {
+        --biggest-font-size: 3rem;
+        --h2-font-size: 1.75rem;
+        --h3-font-size: 1.25rem;
+        --normal-font-size: 1rem;
+        --small-font-size: .875rem;
+        --smaller-font-size: .813rem;
+    }
+    /*========== Font weight ==========*/
+    --font-semi-bold: 600;
+    --font-bold: 700;
+    /*========== Margenes ==========*/
+    --mb-0-5: .5rem;
+    --mb-0-75: .75rem;
+    --mb-1: 1rem;
+    --mb-1-5: 1.5rem;
+    --mb-2: 2rem;
+    /*========== z index ==========*/
+    --z-tooltip: 10;
+    --z-fixed: 100;
+}
+
+@media screen and(min-width: 1024px) {
+     :root {
+        --normal-font-size: 1rem;
+        --small-font-size: .875rem;
+        --smaller-font-size: .813rem;
+    }
+}

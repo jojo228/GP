@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}{% load humanize %}
+
+{% block title %}
+    <title>Ventes</title>
+{% endblock title %}
+
+{% block sale %}
+<a class="sidebar__link active" href="{% url 'list_sale' %}">
+{% endblock sale %}
+
+{% block main %}
+<div class="user">
+    <div class="user__form">
+
+        <div class="delete">
+
+            <h3>Supprimer Facture Vente</h3>
+
+            <p>Voulez vous supprimer la facture № <em>{{ object }}</em>?</p>
+            
+            <form method="POST">
+                {% csrf_token %}
+                <div class="add__buttons">
+                    <a class="btn-sqr-lg btn-green" href="{{ sale.get_absolute_url }}">Annuler</a>
+                    <input class="btn-sqr-lg btn-red" value="Oui, supprimer." type="submit">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock main %}

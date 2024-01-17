@@ -1,0 +1,42 @@
+{% extends 'marine/supply/supply_base.html' %}
+
+
+{% block title %}
+<title>Update Supply</title>
+{% endblock title %}
+
+                                    
+{% block update-supplyitem_url %}
+<a href="{{item.get_update_supply_update_url}}">
+{% endblock update-supplyitem_url %}
+
+{% block delete-supplyitem_url %}
+<a href="{{item.get_update_supply_delete_url}}">
+{% endblock delete-supplyitem_url %}
+                                           
+
+{% block supplyitem-form_url %}
+<form autocomplete="off" class="vente__form" action= {% if request.resolver_match.url_name == 'update_supply_update_supplyitem' %} "{% url 'update_supply_update_supplyitem' supply_id object.id %}" {% else %} "{% url 'update_supply_create_supplyitem' supply_id %}" {% endif %}  method="post">
+{% endblock supplyitem-form_url %}
+                     
+            
+{% block supplyitem-submit_value %}
+<input type="submit" name="option" value= {% if request.resolver_match.url_name == 'update_supply_update_supplyitem' %} "Editer" {% else %} "Ajouter" {% endif %} id="submit" class="btn" />
+{% endblock supplyitem-submit_value %}
+ 
+
+{% block supply-form_url %}
+<form class="user__form" action=" {% if old_supply_id %} {% url 'update_supply'  supply_id %} {% else %} {% url 'update_supply'  supply_id %} {%endif%}" method="post">
+{% endblock supply-form_url %}
+                  
+
+{% block supply-cancel_url %}
+<a class="btn-sqr-lg btn-red" href="{% url 'update_supply_cancel' supply_id %}">Annuler</a> 
+{% endblock supply-cancel_url %}
+
+
+{% block supply-submit_value %}
+<input class="btn-sqr-lg btn-green" type="submit" name="vendre" value="{% if old_supply_id %} Valider {% else %} Valider {%endif%}" />   
+{% endblock supply-submit_value %}
+                
+

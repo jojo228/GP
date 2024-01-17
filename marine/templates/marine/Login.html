@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% load static %}
+    {% load humanize %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{% static 'marine/img/logo.jpeg' %}" type="image/icon type">
+
+    <!--========== CSS ===========-->
+    <link rel="stylesheet" href="{% static 'marine/css/jeedoc.css' %}" />
+    
+    <title>Se Connecter</title>
+</head>
+
+<body>
+    <div class="l-login">
+            <form action="{% url 'login' %}" method="POST" class="login">
+                {% csrf_token %}
+                {% if form.errors %}
+					<div class="" style="color: red; text-align: center;">
+						{% if form.errors %}
+                            <div style="color: red; text-align: center;">
+                                Numéro de téléphone ou Mot de passe Incorrect
+                            </div>
+                        {% endif %}
+					</div>
+				{% endif %}
+                 <div class="login__title">
+                    <div class="logo">
+                        <img src="{% static 'marine/img/logo.jpeg' %}" alt="">
+                    </div>
+                 </div>
+                <div class="login__div">
+                    <input type='contact' class="login__input"  placeholder=" " name="contact"/>
+                    <label for="" class="login__label"> Contact </label>
+                </div>
+                <div class="login__div">
+                    <input type="password" class="login__input"  placeholder=" " name="password" />
+                    <label for="" class="login__label"> Mot de Passe </label>
+                </div>
+                <div class="login__div">
+                    <input type="hidden" name="next" value="{{ next }}">
+                    <input type="submit" class="login__button" value= 'login' />
+                </div>
+            </form>
+        </div>
+
+    <!--===== MAIN JS ======-->
+    {% block scripts %}<script src="{% static 'marine/js/jeedoc_login.js' %}"></script>{% endblock scripts %}
+</body>
+
+</html>

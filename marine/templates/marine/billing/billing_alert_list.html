@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}{% load humanize %}
+
+{% block title %}
+    <title>Chargement</title>
+{% endblock title %}
+
+{% block sale %}
+<a class="sidebar__link active" href="{% url 'list_sale' %}">
+{% endblock sale %}
+
+{% block main %}
+
+    <!-- ==== LIST OF SALES ==== -->
+    <div class="sales">
+        <table class="sales__table">
+            <caption>Listes des factures non soldées</caption>
+            
+            <tr class="sales__headers">
+                <th id='ref'>№ Facture</th>
+                <th id='number'>Client</th>
+                <th id='amount'>Contact</th>
+                <th id='amount'>Montant</th>
+                <th id='btq'>Montant Total payé</th>
+                <th id='date'>Reste à payer</th>
+                <th id='date'>Prochain payment</th>
+               
+            </tr>
+
+            {% for billing in billings %}
+                <tr tr onclick="window.location='{{ billing.get_absolute_url }}';">
+                    <td>{{billing.sale.bill_number}}</td>
+                    <td>{{billing.customer.name}}</td>
+                    <td>{{billing.customer.contact}}</td>
+                    <td>{{billing.sale.total_amount|intcomma}}</td>
+                    <td>{{billing.amount_paid|intcomma}}</td>
+                    <td>{{billing.amount_left|intcomma}}</td>
+                    <td>{{billing.next_payment_date|date:"d-m-Y"}}</td>
+                </tr>
+            {% endfor %}
+            
+        </table>
+    </div>
+
+    
+{% endblock main %}

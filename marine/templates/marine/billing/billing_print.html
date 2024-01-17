@@ -1,0 +1,198 @@
+{% load static %}
+{% load humanize %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Credit Settlement Invoice</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .invoice-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .invoice-header h2 {
+            color: #333;
+            font-size: 24px;
+            margin: 0;
+        }
+
+        .invoice-header p {
+            color: #777;
+            font-size: 14px;
+            margin: 0;
+        }
+
+        .invoice-details {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .invoice-details div {
+            flex-basis: 50%;
+        }
+
+        .invoice-details p {
+            color: #555;
+            font-size: 14px;
+            margin: 5px 0;
+        }
+
+        .invoice-table {
+            width: 100%;
+            margin-bottom: 20px;
+            border-collapse: collapse;
+        }
+
+        .invoice-table th,
+        .invoice-table td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        .invoice-table th {
+            background-color: #f9f9f9;
+            font-weight: bold;
+            color: #555;
+        }
+
+        .invoice-table td {
+            border-bottom: 1px solid #eee;
+            color: #333;
+        }
+
+        .invoice-total {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+
+        .invoice-total p {
+            font-weight: bold;
+            margin: 5px;
+        }
+
+        .invoice-footer {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .invoice-footer p {
+            color: #777;
+            font-size: 14px;
+            margin: 5px 0;
+        }
+
+        .signature-section {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+        }
+
+        .signature-section p {
+            margin: 5px 0;
+        }
+
+        .signature-section .signature-box {
+            width: 20%;
+            height: 40px;
+            border: 1px solid #ccc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .print-button {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .print-button button {
+            padding: 10px 20px;
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 4px;
+        }
+        @media print {
+            .print-button {
+                display: none; /* Hide the print button in print mode */
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="invoice-header">
+            <div>
+                <h2>ETS GOD'S POWER</h2>
+                <p>N° Facture: {{billing.sale.bill_number}}</p>
+                <p>Du: {{billing.sale.date_created|date:"d-m-Y"}}</p>
+            </div>
+            <div>
+                <p>Reçu de règlement N˚: {{billing.bill_number}}</p>
+                <p>Lomé, le: {{billing.payment_date|date:"d-m-Y"}}</p>
+            </div>
+        </div>
+        <div class="invoice-details">
+            <div>
+                <p>Nom du client: {{billing.sale.customer.name}}</p>
+                <p>Montant payé: <strong>{{billing.amount_paid|floatformat:0|intcomma}}  F CFA</strong></p>
+                <p>Somme en lettres: {{billing.amount_in_letters}}</p>
+            </div>
+            <div>
+                <p>Montant Total: {{billing.sale.total_amount|floatformat:0|intcomma}} F CFA</p>
+                <p>Reste à payer: {{billing.amount_left|floatformat:0|intcomma}} F CFA</p>
+                <p>Date du prochain paiement: {{billing.next_payment_date|date:"d-m-Y"}}</p>
+                
+            </div>
+        </div>
+        
+        <div class="invoice-total">
+            <p>Montant: {{billing.amount_paid|floatformat:0|intcomma}}  F CFA</p>
+        </div>
+        <div class="signature-section">
+            <div class="signature-box">
+                <p></p>
+            </div>
+            <div class="signature-box">
+                <p></p>
+            </div>
+        </div>
+        <div class="invoice-footer">
+            <p>Les bons comptes font les bons amis !</p>
+        </div>
+
+        <div class="print-button">
+            <a id="printPageButton" href="{{ billing.get_absolute_url }}"></a>
+            <button onclick="printInvoice()">Imprimer</button>
+        </div>
+    </div>
+    <script>
+        function printInvoice() {
+            window.print();
+        }
+    </script>
+</body>
+<script src="{% static 'marine/js/facture.js' %}"></script>
+
+</html>

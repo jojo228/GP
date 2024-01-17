@@ -1,0 +1,26 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 10%;
+    padding-bottom: 2rem;
+    &__options-container {
+        width: 15%;
+        display: flex;
+        justify-content: space-between;
+    }
+    &__option {
+        background: #F3F2F2;
+        border-radius: 50%;
+        &-dg {
+            color: red;
+        }
+    }
+    &__date-container {
+        font-family: Bahnschrift Light;
+    }
+    &__search-container {
+        font-family: Bahnschrift Light;
+        margin: auto;
+    }
+}

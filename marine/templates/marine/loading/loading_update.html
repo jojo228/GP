@@ -1,0 +1,47 @@
+{% extends 'marine/loading/loading_base.html' %}
+{% load static %}
+
+
+{% block title %}
+<title>Update Loading</title>
+{% endblock title %}
+
+                                    
+{% block update-loadingitem_url %}
+<a href="{{item.get_update_loading_update_url}}">
+{% endblock update-loadingitem_url %}
+
+
+{% block delete-loadingitem_url %}
+<a href="{{item.get_update_loading_delete_url}}">
+{% endblock delete-loadingitem_url %}
+                                           
+
+{% block loadingitem-form_url %}
+<form autocomplete="off" class="vente__form" action= {% if request.resolver_match.url_name == 'update_loading_update_loadingitem' %} "{% url 'update_loading_update_loadingitem' loading_id object.id %}" {% else %} "{% url 'update_loading_create_loadingitem' loading_id %}" {% endif %}  method="post">
+{% endblock loadingitem-form_url %}
+                     
+            
+{% block loadingitem-submit_value %}
+<input type="submit" name="option" value= {% if request.resolver_match.url_name == 'update_loading_update_loadingitem' %} "Editer" {% else %} "Ajouter" {% endif %} id="submit" class="btn" />
+{% endblock loadingitem-submit_value %}
+ 
+
+{% block loading-form_url %}
+<form class="user__form" action=" {% if old_loading_id %} {% url 'update_loading'  loading_id %} {% else %} {% url 'update_loading'  loading_id %} {%endif%}" method="post">
+{% endblock loading-form_url %}
+                  
+
+{% block loading-cancel_url %}
+<a class="btn-sqr-lg btn-red" href="{% url 'update_loading_cancel' loading_id %}">Annuler</a> 
+{% endblock loading-cancel_url %}
+
+
+{% block loading-submit_value %}
+<input class="btn-sqr-lg btn-green" type="submit" name="vendre" value="{% if old_loading_id %} Valider {% else %} Valider {%endif%}" />   
+{% endblock loading-submit_value %}
+                
+
+{% block js %}
+<script src="{% static 'marine/js/loadingUpdate.js' %}"></script>
+{% endblock js %} 

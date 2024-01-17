@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% load static %}{% load humanize %}
+
+
+{% block title %}
+    <title>Erreur 500</title>
+{% endblock title %}
+
+{% block main %}
+    <div style="display: grid; justify-items: center;">
+      <div>
+        <p style="font-size: 4rem;">Oooops!</p>
+        <p style="font-size: 2rem;">Erreur 500</p>
+        <p>Quelque chose s'est mal passée.</p>
+        <p>Cliquez <a href="{{request.META.HTTP_REFERER}}" style="font-size: 1.5rem;">ici</a> pour revenir à la page précédente.</p>
+      </div>
+    </div>
+{% endblock main %}

@@ -1,0 +1,9 @@
+.container {
+    &__dashboard {
+        display: flex;
+        height: 97vh;
+        background: var(--container-color);
+        border-radius: 2rem;
+        box-shadow: 0 0 3px rgba(77, 76, 76, 0.2);
+    }
+}

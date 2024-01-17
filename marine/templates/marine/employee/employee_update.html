@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load static %}{% load humanize %}
+
+{% block title %}
+    <title>Employés</title>
+{% endblock title %}
+
+{% block employee %}
+<a class="sidebar__link active" href="{% url 'list_employee' %}">
+{% endblock employee %}
+
+{% block main %}
+<div class="user">
+    <form action="{{ employee.get_update_url }}" class="user__form" method="post">
+        {% csrf_token %}
+        <div class="add__address">
+
+
+            {% for field in form %}
+            <div class="user__div add__name">
+                {{field}}
+                <label for="{{ field.id_for_label }}"  class="input-lbl">{{field.label}}</label>
+            </div>
+            {% endfor %}
+
+
+            <div class="add__buttons">
+                <a class="btn-sqr-lg btn-red" href="{% url 'list_employee' %}">Annuler</a>
+                <input class="btn-sqr-lg btn-green"  type="submit" name="" value="Editer">
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock main %}

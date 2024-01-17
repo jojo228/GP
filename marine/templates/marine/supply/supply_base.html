@@ -1,0 +1,158 @@
+{% extends 'base.html' %} 
+{% load static %}
+{% load humanize %}
+
+{% block supply %}
+<a class="sidebar__link active" href="{% url 'list_supply' %}">
+{% endblock supply %}
+
+{% block main %}
+<div class="vente">
+
+    <!-- ==== BILL CONTENT ==== -->
+    <div class="vente__element">
+
+        <figure>
+            <figcaption>Facture Achat</figcaption>
+            <table class="vente__table">
+                <!-- headers -->
+                <thead>
+                    <tr>
+                        <th id="quantité" style="min-width: 5rem;">Qté</th>
+                        <th id="désignation" style="min-width: 20rem;">Désignation</th>
+                        <th id="pu" style="min-width: 10rem;">Prix unitaire</th>
+                        <th id="pt" style="min-width: 10rem;">Montant</th>
+                    </tr>
+                </thead>
+
+                <!-- content -->
+                <tbody>
+                    {% for item in items %}
+                    <tr>
+                        <td style="min-width: 5rem;">{{item.quantity}}</td>
+                        <td style="min-width: 20rem; padding-right: 1.5rem;">{{item.product.designation}}</td>
+                        <td style="min-width: 10rem;">{{item.price}}</td>
+                        <td class="subtotal" style="min-width: 10rem;">{{item.total_amount}}</td>
+                        <td>                                
+                            {% block update-supplyitem_url %}
+                            <a href="">
+                            {% endblock update-supplyitem_url %}                                    
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+                                </svg>
+                            </a>
+                            
+                            {% block delete-supplyitem_url %}
+                            <a href="">
+                            {% endblock delete-supplyitem_url %}                                    
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+                                    <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+                                </svg>
+                            </a>
+                        </td>
+                    </tr>
+                    {% empty %} 
+                    Pas encore de produit ! 
+                    {% endfor %}
+                </tbody>
+
+            </table>
+        </figure>
+
+    </div>
+
+    <hr>
+
+    <!-- ==== BILL TOTAL ==== -->
+    <div class="vente__total">
+        <span>Total</span> 
+        <span id="total">{% if total_amount %}{{total_amount}}{% else %}0{% endif %}</span>
+    </div>
+
+    <!-- ==== PRODUCT ADDING SECTION ==== -->
+    <div class="vente__ajout">
+
+        {% block supplyitem-form_url %}
+        <form autocomplete="off" class="vente__form" action="" method="post">
+        {% endblock supplyitem-form_url %} 
+
+            {% csrf_token %}
+            <div class="vente__input autocomplete">
+                <label for="" class="form-label">Produit</label>
+                <input type="text" id="dsg" name="designation" class="form-field" style=" width: 22rem; font-weight: bold; padding: 0.5rem 0.5rem;" value="{{object.product.designation}}">
+            </div>
+
+            {% for field in item_form %} 
+                {% if field.is_hidden %} 
+                    {{field}} 
+                {% else %}
+                    <div class="vente__input">
+                        <label for="{{ field.id_for_label }}" class="form-label">{{field.label}}</label> 
+                        {{field}}
+                    </div>
+                {% endif %} 
+            {% endfor %} 
+            
+            {% block supplyitem-submit_value %}
+            <input type="submit" name="option" value="" id="submit" class="btn" /> 
+            {% endblock supplyitem-submit_value %}
+
+        </form>
+
+    </div>
+
+    <!-- ==== BILL INFORMATION SECTION ==== -->
+    <div class="user">
+
+        {% block supply-form_url %}
+        <form class="user__form" action="" method="post">
+        {% endblock supply-form_url %} 
+        
+            {% csrf_token %}
+            <div class="vente_detail-2">
+
+                {% for field in supply_form %}
+                <div class="user__div add__name">
+                    {{field}}
+                    <label for="{{ field.id_for_label }}" class="input-lbl">{{field.label}}</label>
+                </div>
+                {% endfor %}
+
+                <div class="add__button">
+
+                    {% block supply-cancel_url %}
+                    <a class="btn-sqr-lg btn-red" href="">Annuler</a>
+                    {% endblock supply-cancel_url %}
+
+                    {% block supply-submit_value %}
+                        <input class="btn-sqr-lg btn-green" type="submit" name="vendre" value="" />
+                    {% endblock supply-submit_value %}
+                        
+                </div>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+<script>
+    window.addEventListener('DOMContentLoaded', function () {
+        var inputField = document.getElementById('dsg'); // Replace 'name' with the ID of your input field
+        inputField.focus(); // Focus on the input field
+        inputField.select(); // Select the contents of the input field
+    });
+</script>
+{% endblock main %} 
+
+{% block js %}
+<script src="{% static 'marine/js/jeedoc_achat.js' %}"></script>
+{% endblock js %} 
+
+{% block page_data %} 
+{{ products_data|json_script:"products_data" }} 
+{{ suppliers_data|json_script:"suppliers_data" }} 
+{% endblock page_data %}

@@ -1,0 +1,259 @@
+{% load static %}
+{% load mathfilters %}
+{% load humanize %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<style>
+    @media print {
+        #printPageButton {
+            display: none;
+        }
+
+    }
+</style>
+
+
+<head>
+
+    <title>Imprimer Vente</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!-- vendor css -->
+    <link rel="stylesheet" type="text/css" href="{% static 'marine/bs4/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'marine/bs4/bootstrap.min.js' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'marine/bs4/boot.css' %}">
+
+    <style>
+        .vl {
+            border-left: 3px solid rgb(2, 5, 2);
+            height: 130px;
+        }
+    </style>
+</head>
+
+<body class="">
+
+
+
+    <!-- [ Main Content ] start -->
+
+    <div class="pcoded-main-container">
+        <div class="col-md-12" style="font-size: 20px">
+            <div class="card card-body ">
+
+                <div class="d-flex justify-content-between">
+
+                    <div>
+                        <h1 style="font-weight: bold;">ETS GOD'S POWER</h1>
+                        <h3 style="font-weight: bold;">COMMERCE GENERAL IMPORT-EXPORT</h3>
+                        <h3>Adresse: 11 rue Aniko Palako Assivito</h3>
+                        <h3>+228 99 45 75 65 / 70 42 99 16</h3>
+                        <h3>+228 90 03 70 31 / 96 64 96 04</h3>
+                    </div>
+
+                    <div>
+                        <h3>Vente de matériaux de construction:</h3>
+                        <h3>Electricité (Industriel & Bâtiment),</h3>
+                        <h3>Lomé - TOGO COE 124134G</h3>
+                        <h3 style="font-weight: bold;">NIF: 1000135900</h3>
+                        <h3 style="font-weight: bold;">RCCM: TG-LOM 2012 A 1319</h3>
+
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="d-flex justify-content-between">
+
+                <div class="card-header border-dark mb-3">
+                    <h3><strong>FACTURE:</strong> <b>{% if sale.get_category_display != 'OTR' %}
+                            {{sale.get_category_display}} {% endif %}</b></h3>
+                </div>
+                <div>
+                    <h3><strong>DATE :</strong> {{sale.date_modified|date:"d-m-Y H:i"}}</h3>
+
+                </div>
+            </div>
+            <br>
+
+            <div class="d-flex justify-content-between">
+
+                <div>
+
+                    <div class="card card-body border-dark mb-3" style="border-radius: 20px;">
+
+                        <h4><strong>VENDEUR :</strong> {{sale.added_by}}</h4>
+                        <h4><strong>N° FACTURE :</strong> {{sale.bill_number}}</h4>
+
+                    </div>
+
+                </div>
+
+
+                <div>
+                    <div class="card card-body border-dark mb-3" style="border-radius: 20px;">
+
+
+                        <h4><strong>CLIENT :</strong> <strong>{{sale.customer.name}}</strong></h4>
+                        <h4><strong>CONTACT :</strong> {% if sale.customer.contact %}
+                            {{sale.customer.contact}} {% endif %} </h4>
+                    </div>
+
+                </div>
+
+
+            </div>
+            <br>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div>
+
+                        <table class="table mb-3" style="border: 2px solid #000;">
+                            <thead class="table mb-3" style="display: table-row-group;">
+                                <tr>
+                                    <th
+                                        style="border-color: black; border-style: solid; border-width: 3px; font-size: x-large; padding: 10px; font-weight: bold;">
+                                        QTE</th>
+                                    <th
+                                        style="border-color: black; border-style: solid; border-width: 3px; font-size: x-large; padding: 10px; font-weight: bold;">
+                                        DESIGNATIONS</th>
+                                    <th
+                                        style="border-color: black; border-style: solid; border-width: 3px; font-size: x-large; padding: 10px; font-weight: bold;">
+                                        PU</th>
+                                    <th
+                                        style="border-color: black; border-style: solid; border-width: 3px; font-size: x-large; padding: 10px; font-weight: bold;">
+                                        REMISE</th>
+                                    <th
+                                        style="border-color: black; border-style: solid; border-width: 3px; font-size: x-large; padding: 10px; font-weight: bold;">
+                                        MONTANT HT</th>
+                                </tr>
+                            </thead>
+                            <tbody class="table border-black mb-3"
+                                style="text-align: justify; border: 2px solid black; padding: 10px;">
+                                {% for item in items %}
+                                <tr>
+                                    <th
+                                        style="border-color: black; border-style: solid; border-width: 3px; font-size: x-large; padding: 10px; font-weight: bold;">
+                                        {{item.quantity}}</th>
+                                    <th
+                                        style="border-color: black; border-style: solid; border-width: 3px; font-size: x-large; padding: 10px; font-weight: bold;">
+                                        {{item.product.designation}}</th>
+                                    <th
+                                        style="border-color: black; border-style: solid; border-width: 3px; font-size: x-large; padding: 10px; font-weight: bold;">
+                                        {{item.price|floatformat:0|intcomma}}</th>
+                                    <th
+                                        style="border-color: black; border-style: solid; border-width: 3px; font-size: x-large; padding: 10px; font-weight: bold;">
+                                        {{item.discount_price|floatformat:0|intcomma}}</th>
+                                    <th class="subtotal"
+                                        style="border-color: black; border-style: solid; border-width: 3px; font-size: x-large; padding: 10px; font-weight: bold;">
+                                        {{item.total_amount|floatformat:0|intcomma}}</th>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+
+
+
+
+
+
+
+                    </div>
+                    <table style="width:45%; margin-left: 60%;">
+                        <tr>
+                            <th>TOTAL:</th>
+                            <td>{{sale.net_amount|floatformat:0|intcomma}}</td>
+                        </tr>
+                        <tr>
+                            <th>REMISE :</th>
+                            <td>{{sale.discount_amount|floatformat:0|intcomma}}</td>
+                        </tr>
+                        {% if sale.category == 'OTR' %}
+                        <tr>
+                            <th>TOTAL TVA 18% :</th>
+                            <td>{{sale.tax_amount|floatformat:0|intcomma}}</td>
+                        </tr>
+                        {% endif %}
+                        <tr>
+                            <th>NET A PAYER :</th>
+                            <td style="font-size: 30px; font-weight: bold; ">
+                                {{sale.total_amount|floatformat:0|intcomma}}</td>
+                        </tr>
+
+                        {% if sale.category == 'CR' %}
+
+                        {% for billing in billings %}
+                        <tr>
+                            <th>Avance</th>
+                            <td>{{billing.amount_paid|floatformat:0|intcomma}}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Reste à payer</th>
+                            <td>{{billing.amount_left|floatformat:0|intcomma}}</td>
+                        </tr>
+
+                        {% endfor %}
+                        {% endif %}
+
+                    </table>
+
+                    <div class="form-group">
+                        <h3>Arrêtée la présente facture à la somme de:</h3>
+                        <h3 style="font-family: monospace; font-style: italic; font-size: 30px; font-weight:bold">
+                            {{sale.amount_in_letters}}</h3>
+                    </div>
+                </div>
+            </div>
+
+            {% if sale.category != 'PF' %}
+
+            <div class="d-flex justify-content-between">
+
+                <h3>visa vendeur</h3>
+
+                <h3>visa caisse</h3>
+
+                <h3>visa livreur</h3>
+
+            </div>
+            {% endif %}
+
+            <br>
+            <br>
+            <br>
+            <div class="form-group">
+                <h3 style="text-align: center;">NB: Toutes marchandises livrées ne sont ni échangées ni
+                    reprises</h3>
+            </div>
+
+
+
+        </div>
+
+
+        <div class="d-grid gap-2 col-2 mx-auto">
+
+            <a id="printPageButton" href="{{sale.get_absolute_url}}">Retour</a>
+
+            <button class="btn btn-outline-info hidden-print" onclick="imprimer()"><span
+                    class="glyphicon glyphicon-print" aria-hidden="true"></span>Imprimer</button>
+        </div>
+
+
+
+
+
+        <script>function imprimer() {
+                window.print();
+            }
+        </script>
+
+</body>
+<script src="{% static 'marine/js/facture.js' %}"></script>
+
+</html>

@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}{% load humanize %}
+
+{% block title %}
+    <title>Ordinateurs</title>
+{% endblock title %}
+
+{% block computer %}
+<a class="sidebar__link active" href="{% url 'list_computer' %}">
+{% endblock computer %}
+
+{% block main %}
+<div class="user">
+    <div class="user__form">
+
+        <div class="delete">
+
+            <h3>Supprimer Ordinateur</h3>
+
+            <p>Voulez vous supprimer l'ordinateur  <em>{{ object.name }}</em>?</p>
+            
+            <form method="POST">
+                {% csrf_token %}
+                <div class="add__buttons">
+                    <a class="btn-sqr-lg btn-green" href="{{ computer.get_absolute_url }}">Annuler</a>
+                    <input class="btn-sqr-lg btn-red" value="Oui, supprimer." type="submit">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock main %}

@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}{% load humanize %}
+
+{% block title %}
+    <title>Achats</title>
+{% endblock title %}
+
+{% block supply %}
+<a class="sidebar__link active" href="{% url 'list_supply' %}">
+{% endblock supply %}
+
+{% block main %}
+<div class="user">
+    <div class="user__form">
+
+        <div class="delete">
+
+            <h3>Suprimer facture d'achat</h3>
+
+            <p>Voulez vous supprimer la facture d'achat № <em>{{ object.bill_number }}</em>?</p>
+            
+            <form method="POST">
+                {% csrf_token %}
+                <div class="add__buttons">
+                    <a class="btn-sqr-lg btn-green" href="{{ supply.get_absolute_url }}">Annuler</a>
+                    <input class="btn-sqr-lg btn-red" value="Oui, supprimer." type="submit">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock main %}

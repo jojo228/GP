@@ -1,0 +1,147 @@
+{% load static %}{% load humanize %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+    <style>
+        @media print {
+      #printPageButton {
+        display: none;
+      }
+    }
+    </style>
+
+<head>
+
+	<title>Facture</title>
+	<!-- HTML5 Shim and Respond.js IE11 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 11]>
+		<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+		<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
+	<!-- Meta -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+
+	<!-- Favicon icon -->
+	<link rel="icon" href="" type="image/x-icon">
+	<!-- fontawesome icon -->
+	<link rel="stylesheet" type="text/css" href="./static/assets/fonts/fontawesome/css/fontawesome-all.min.css">
+	<!-- animation css -->
+	<link rel="stylesheet" type="text/css" href="./static/assets/plugins/animation/css/animate.min.css">
+
+	<link rel="stylesheet" type="text/css"
+		href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+		integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+	<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+	<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+
+
+
+	<!-- vendor css -->
+	<link rel="stylesheet" type="text/css" href="./static/assets/css/style.css">
+	<link rel="stylesheet" href="./static/assets/css/dash.css">
+
+    <style>
+        .vl {
+          border-left: 3px solid rgb(2, 5, 2);
+          height: 130px;
+        }
+    </style>
+</head>
+
+<body class="">
+
+
+
+<div class="sales">
+        
+    <table class="table">
+
+        <thead class="sales__headers">
+            <tr >
+                <th>Désignation</th>
+                <th>Prix unitaire</th>
+
+                {% if user.is_staff %}
+                <th >Quantité en magasin</th>
+                {% endif %}
+
+                {% if user.is_staff %}
+                <th>Quantité en GP_Annexe_1</th>
+                <th>Quantité en BM2</th>
+                <th>Quantité en BM3</th>
+                {% else %}
+                <th >Quantité en boutique</th>
+                {% endif %}
+
+            
+
+            </tr>
+        </thead>
+
+        <tbody>
+            
+            {% for product in object_list %}
+                {% if user.is_staff %}
+                <tr onclick="window.location='{{ product.get_absolute_url }}';">
+                {% else %}
+                <tr>
+                {% endif %}
+                    <td style="text-align: center;">{{product.designation}}</td>
+                    <td style="text-align: center;">{{product.unit_price|intcomma}}</td>
+
+                    {% if user.is_staff %}
+                    <td style="text-align: center;">{{product.marine_warehouse_related.quantity|intcomma}} </td>
+                    {% endif %}
+
+                    {% if user.is_staff %}
+                    <td style="text-align: center;">{{product.bm1_quantity|intcomma}} 
+                    <td style="text-align: center;">{{product.bm2_quantity|intcomma}} 
+                    <td style="text-align: center;">{{product.bm3_quantity|intcomma}} 
+                    {% else %}
+                    <td style="text-align: center;">{{product.store_quantity|intcomma}}</td>
+                    {% endif %}
+
+                </tr>
+            {% endfor %}
+
+        </tbody>
+
+        
+        
+    </table>
+</div>
+<br>
+
+<div class="d-grid gap-2 col-2 mx-auto" style="text-align: center;">
+
+    <a id="printPageButton" href="{% url 'alert_list_product' %}">Retour</a>
+
+    <button id="printPageButton" class="btn btn-outline-info hidden-print" onclick="imprimer()"><span
+            class="glyphicon glyphicon-print" aria-hidden="true"></span>Imprimer</button>
+</div>
+
+
+
+{% if request.resolver_match.url_name == 'alert_list_product' %}
+{% block js %}
+    <script src="{% static 'marine/js/alert.js' %}"></script>
+{% endblock js %}
+{% endif %}
+
+<script>function imprimer() {
+    window.print();
+}
+</script>
+
+</body>
+
+</html>
+

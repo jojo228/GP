@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% load static %}{% load humanize %}
+
+{% block title %}
+    <title>Achats</title>
+{% endblock title %}
+
+{% block supply %}
+<a class="sidebar__link active" href="{% url 'list_supply' %}">
+{% endblock supply %}
+
+{% block main %}
+<div class="facture">
+  
+    <!-- ==== BILL'S HEADER ==== -->
+    <div class="facture__table-container facture__first">
+        <figure>
+            <figcaption>Facture Achat</figcaption>
+            <table class="facture__table">
+                <thead>
+                    <tr>
+                    <th>Date</th>
+                    <th>Fournisseur</th>
+                    <th>N° Facture</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                    <td class="facture__hd">{{supply.date_created|date:"d-m-Y"}}</td>
+                    <td class="facture__hd">{{supply.supplier}}</td>
+                    <td class="facture__hd">{{supply.bill_number}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </figure>
+    </div>
+  
+    <div class="facture__table-container facture__second">
+
+        <!-- ==== BILL'S ITEMS ==== -->
+        <figure>
+            <figcaption>Contenu de la facture</figcaption>
+            <table class="facture__table">
+                <thead>
+                    <tr>
+                    <th>DESIGNATIONS</th>
+                    <th>QTE</th>
+                    <th>PU</td>
+                    <th>MONTANT HT</th>
+                    </tr>
+                </thead>
+                <tbody class="facture__tbody">
+                    {% if items %}
+                        {% for item in items %}
+                            <tr>
+                                <td>{{item.product.designation}}</td>
+                                <td>{{item.quantity|intcomma}}</td>
+                                <td>{{item.price|intcomma}}</td>
+                                <td class="subtotal">{{item.total_amount|intcomma}}</td>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}     
+                </tbody>
+            </table>
+        </figure>
+
+        <!-- ==== BILL'S FOOTER ==== -->
+        <div class="facture__total">
+            <div class="facture__sst">
+                <span class="facture__sst-content-ttc">Montant TTC</span>
+                <span class="facture__sst-content-ttc">{{supply.total_amount|intcomma}}</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="add__buttons">
+
+        {% if user.is_staff %}
+        <a class="btn-sqr-lg btn-red" href="{{ supply.get_delete_url }}">Supprimer</a>
+        <a class="btn-sqr-lg btn-green"  href="{{ supply.get_update_url }}">Editer</a>
+        {% endif %}
+        
+    </div>
+</div>
+
+{% endblock main %}

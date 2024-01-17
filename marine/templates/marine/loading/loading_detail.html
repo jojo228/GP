@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% load static %}{% load humanize %}
+
+{% block title %}
+    <title>Chargement</title>
+{% endblock title %}
+
+{% block loading %}
+<a class="sidebar__link active" href="{% url 'list_loading' %}">
+{% endblock loading %}
+
+{% block main %}
+<div class="facture">
+  
+    <!-- ==== BILL'S HEADER ==== -->
+    <div class="facture__table-container facture__first">
+        <figure>
+            <figcaption>Facture Vente</figcaption>
+            <table class="facture__table">
+                <thead>
+                    <tr>
+                    <th>Date</th>
+                    <th>N° Facture</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                    <td class="facture__hd">{{loading.date_created|date:"d-m-Y"}}</td>
+                    <td class="facture__hd">{{loading.bill_number}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </figure>
+    </div>
+  
+    <div class="facture__table-container facture__second">
+
+        <!-- ==== BILL'S ITEMS ==== -->
+        <figure>
+            <figcaption>Contenu Facture</figcaption>
+            <table class="facture__table">
+                <thead>
+                    <tr>
+                    <th>DESIGNATIONS</th>
+                    <th>QTE</th>
+                    <th>PU</td>
+                    <th>MONTANT HT</th>
+                    </tr>
+                </thead>
+                <tbody class="facture__tbody">
+                    {% if items %}
+                        {% for item in items %}
+                            <tr>
+                                <td>{{item.product.designation}}</td>
+                                <td>{{item.quantity|intcomma}}</td>
+                                <td>{{item.price|intcomma}}</td>
+                                <td class="subtotal">{{item.total_amount|intcomma}}</td>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}     
+                </tbody>
+            </table>
+        </figure>
+
+        <!-- ==== BILL'S FOOTER ==== -->
+        <div class="facture__total">
+            <div class="facture__sst">
+                <span class="facture__sst-content-ttc">MONTANT TTC</span>
+                <span class="facture__sst-content-ttc">{{loading.total_amount|intcomma}}</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="add__buttons">
+
+        {% if user.is_staff %}
+        <a class="btn-sqr-lg btn-red" href="{{ loading.get_delete_url }}">Supprimer</a>
+        <a class="btn-sqr-lg btn-green"  href="{{ loading.get_update_url }}">Editer</a>
+        {% endif %}
+        
+    </div>
+</div>
+
+{% endblock main %}

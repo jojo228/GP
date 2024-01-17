@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% load static %}{% load humanize %}
+
+
+{% block title %}
+    <title>Erreur 404</title>
+{% endblock title %}
+
+{% block main %}
+    <div style="display: grid; justify-items: center;">
+      <div>
+        <p style="font-size: 4rem;">Oooops! Page introuvable</p>
+        <p style="font-size: 2rem;">Erreur 404</p>
+        <p>Cette page n'existe pas ou a été retirée.</p>
+        <p>Cliquez <a href="{% url 'dashboard' %}" style="font-size: 1.5rem;">ici</a> pour revenir à la page d'acceuil.</p>
+      </div>
+    </div>
+{% endblock main %}

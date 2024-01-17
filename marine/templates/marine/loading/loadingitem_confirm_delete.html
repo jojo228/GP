@@ -1,0 +1,24 @@
+{% extends 'marine/loading/loading_base.html' %}
+
+
+{% block title %}
+<title>Delete Create Loading LoadingItem</title>
+{% endblock title %}
+
+
+{% block main %}
+<div class="delete">
+
+    <h3>Supprimer</h3>
+
+    <p>Voulez vous supprimer <em>{{ object }}</em>?</p>
+    
+    <form method="POST">
+        {% csrf_token %}
+        <div class="add__buttons">
+            <a class="btn-sqr-lg btn-green" href="{{ loadingitem.get_absolute_url }}">Annuler</a>
+            <input class="btn-sqr-lg btn-red" value="Oui, supprimer." type="submit">
+        </div>
+    </form>
+</div> 
+{% endblock main %}

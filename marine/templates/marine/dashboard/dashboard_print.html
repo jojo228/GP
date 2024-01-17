@@ -1,0 +1,160 @@
+{% load static %} {% load mathfilters %} {% load static %} {% load humanize %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<style>
+    @media print {
+        #printPageButton {
+            display: none;
+        }
+    }
+</style>
+
+<head>
+    <title>Recap du jour</title>
+    <!-- HTML5 Shim and Respond.js IE11 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 11]>
+		<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+		<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
+    <!-- Meta -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- Favicon icon -->
+    <link rel="icon" href="" type="image/x-icon">
+
+    <!-- fontawesome icon -->
+    <link rel="stylesheet" type="text/css" href="./static/assets/fonts/fontawesome/css/fontawesome-all.min.css">
+
+    <!-- animation css -->
+    <link rel="stylesheet" type="text/css" href="./static/assets/plugins/animation/css/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+    <!-- vendor css -->
+    <link rel="stylesheet" type="text/css" href="./static/assets/css/style.css">
+    <link rel="stylesheet" href="./static/assets/css/dash.css">
+
+    <style>
+        .vl {
+            border-left: 3px solid rgb(2, 5, 2);
+            height: 130px;
+        }
+    </style>
+</head>
+
+<body class="">
+
+    <!-- [ Main Content ] start -->
+    <div class="pcoded-main-container">
+        <div class="col-md-18" style="font-size: 22px">
+            <div class="card card-body ">
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3 id="sales_table" style=" display: flex; justify-content: center; color:rgb(2, 5, 2); ">
+                            Recap des ventes du {{current_date|date:"d-m-Y "}}
+                        </h3>
+                        <table aria-describedby="sales_table" class="table table-bordered border-dark mb-3" style="border:2px solid #000; ">
+                            <thead class="table border-dark mb-3 " style="display: table-row-group; ">
+                                <tr>
+                                    <th scope="col " style="border-color:black; text-align: center; ">Vente du jour</th>
+                                    <th scope="col " style="border-color:black; text-align: center; ">Boutique</th>
+                                    <th scope="col " style="border-color:black; text-align: center; ">Règlement du jour</th>
+                                    <th scope="col " style="border-color:black; text-align: center; ">Crédit du jour</th>
+                                    <th scope="col " style="border-color:black; text-align: center; ">Quantité en stock</th>
+                                    <th scope="col " style="border-color:black; text-align: center; ">Montant du stock</th>
+                                </tr>
+                            </thead>
+                            <tbody class="table border-dark mb-3 " style="text-align: center; ">
+                                <tr>
+                                    <th scope="row " style="border-color:black; text-align: center; ">GP_Annexe_1</th>
+                                    <td style="border-color:black; text-align: center; ">{% if GP_Annexe_1.sold.amount %} {{GP_Annexe_1.sold.amount|intcomma}} {% else %} 0 {% endif %}FCFA</td>
+                                    <td style="border-color:black; text-align: center; ">
+                                        {% if billing_BM1.total_amount_paid %} {{billing_BM1.total_amount_paid}} {% else %} 0 {% endif %}FCFA</td>
+                                    <td style="border-color:black; text-align: center; ">
+                                        {% if GP_Annexe_1.sold.amount_credit %} {{GP_Annexe_1.sold.amount_credit}} {% else %} 0 {% endif %} FCFA</td>
+                                    <td style="border-color:black; text-align: center; ">
+                                        {% if GP_Annexe_1.store.items_quantity %}{{GP_Annexe_1.store.items_quantity|intcomma}}{% else %}0{% endif %} Articles
+                                    </td>
+                                    <td style="border-color:black; text-align: center; ">{% if GP_Annexe_1.store.amount %} {{GP_Annexe_1.store.amount|intcomma}} {% else %} 0 {% endif %} FCFA</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row " style="border-color:black; text-align: center; ">BM2</th>
+                                    <td style="border-color:black; text-align: center; ">{% if BM2.sold.amount %} {{BM2.sold.amount|intcomma}} {% else %} 0 {% endif %}FCFA</td>
+                                    <td style="border-color:black; text-align: center; ">
+                                        {% if billing_BM2.total_amount_paid %} {{billing_BM2.total_amount_paid}} {% else %} 0 {% endif %}FCFA</td>
+                                    <td style="border-color:black; text-align: center; ">
+                                        {% if BM2.sold.amount_credit %} {{BM2.sold.amount_credit}} {% else %} 0 {% endif %} FCFA</td>
+                                    <td style="border-color:black; text-align: center; ">
+                                        {% if BM2.store.items_quantity %}{{BM2.store.items_quantity|intcomma}}{% else %}0{% endif %} Articles
+                                    </td>
+                                    <td style="border-color:black; text-align: center; ">{% if BM2.store.amount %} {{BM2.store.amount|intcomma}} {% else %} 0 {% endif %} FCFA</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row " style="border-color:black; text-align: center; ">BM3</th>
+                                    <td style="border-color:black; text-align: center; ">{% if BM3.sold.amount %} {{BM3.sold.amount|intcomma}} {% else %} 0 {% endif %}FCFA</td>
+                                    <td style="border-color:black; text-align: center; ">
+                                        {% if billing_BM3.total_amount_paid %} {{billing_BM3.total_amount_paid}} {% else %} 0 {% endif %}FCFA</td>
+                                    <td style="border-color:black; text-align: center; ">
+                                        {% if BM3.sold.amount_credit %} {{BM3.sold.amount_credit}} {% else %} 0 {% endif %} FCFA</td>
+                                    <td style="border-color:black; text-align: center; ">
+                                        {% if BM3.store.items_quantity %}{{BM3.store.items_quantity|intcomma}}{% else %}0{% endif %} Articles
+                                    </td>
+                                    <td style="border-color:black; text-align: center; ">{% if BM3.store.amount %} {{BM3.store.amount|intcomma}} {% else %} 0 {% endif %} FCFA</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br>
+                        <span id="warehouse_table" tyle="display: flex; justify-content: center; color:rgb(2, 5, 2); ">
+								Recap du stock en magasin au {{current_date|date:"d-m-Y "}}
+						</span>
+                        <table aria-describedby="warehouse_table" class="table table-bordered border-dark mb-3 " style="border:2px solid #000; ">
+                            <thead class="table border-dark mb-3 " style="display: table-row-group; ">
+                                <tr>
+                                    <th scope="col " style="border-color:black; text-align: center; "></th>
+                                    <th scope="col " style="border-color:black; text-align: center; ">Quantité en stock</th>
+                                    <th scope="col " style="border-color:black; text-align: center; ">Montant du stock</th>
+                                </tr>
+                            </thead>
+                            <tbody class="table border-dark mb-3 " style="text-align: center; ">
+                                <tr>
+                                    <th scope="row " style="border-color:black; text-align: center; ">MAGASIN</th>
+                                    <td style="border-color:black; text-align: center; ">
+                                        {% if magasin.warehouse_items_quantity %}{{magasin.warehouse_items_quantity|intcomma}}{% else %}0{% endif %} Articles
+                                    </td>
+                                    <td style="border-color:black; text-align: center; ">
+                                        {% if magasin.warehouse_amount %} {{magasin.warehouse_amount|intcomma}} {% else %} 0 {% endif %} FCFA</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+                <div class="d-grid gap-2 col-2 mx-auto ">
+                    <a id="printPageButton " href="{% url 'dashboard' %} ">Retour</a>
+                    <button class="btn btn-outline-info hidden-print " onclick="imprimer() ">
+					<span class="glyphicon glyphicon-print " aria-hidden="true ">Imprimer</span>
+				</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function imprimer() {
+            window.print();
+        }
+    </script>
+
+</body>
+
+</html>

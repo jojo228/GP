@@ -1,0 +1,57 @@
+{% extends 'base.html' %} {% load static %} {% block title %}
+<title>pomp</title>
+{% endblock title %} 
+
+{% block inventory %}
+<a class="sidebar__link active" href="{% url 'inventory' %}">
+{% endblock inventory %}
+
+{% block main %}
+		<div class="add">
+			<fieldset class="load__card " name="Single File Upload">
+				{% if msge %} {% autoescape off %} {{ msge }} {% endautoescape %} {% endif %}
+				<form  method="post" action="{% url 'export_data' %}" enctype="multipart/form-data" class="load__form">
+					{% csrf_token %}
+					<dl>
+						<p class="load__p">
+							<label class="load__label">Choisissez un inventaire pour le télécharger</label>
+							<input type="radio" id="sale" name="data" value="Sale" required>
+							<label for="sale">Inventaire Ventes</label><br>
+							<input type="radio" id="saleitem" name="data" value="SaleItem" required>
+							<label for="saleitem">Stats des articles</label><br>
+							<input type="radio" id="inventory" name="data" value="Product" required>
+							<label for="inventory">Inventaire Achats</label>
+							<input type="radio" id="warehouse" name="data" value="Warehouse" required>
+							<label for="warehouse">Inventaire Magasin</label>
+						</p>
+					</dl>
+					<p>
+						<button class="login__button" name="action" value="export" type="submit">Telecharger</button>
+					</p>
+				</form>
+			</fieldset>
+
+
+			<fieldset class="load__card" name="Single File Upload">
+				{% if msga %} {% autoescape off %} {{ msga }} {% endautoescape %} {% endif %}
+				<form method="post" action="{% url 'inventory' %}" enctype="multipart/form-data">
+					{% csrf_token %}
+					<dl>
+						<p>
+							<label>Selectionner pour envoyer les données des inventaires</label>&nbsp;&nbsp;
+							<input type="file" name="file" autocomplete="off" required>
+						</p>
+					</dl>
+					<p>
+						<input class="login__button" type="submit" value="Upload">
+					</p>
+				</form>
+			</fieldset>
+		</div>
+{% endblock main %}
+
+
+  <!--===== JS FOR CHART.JS ======-->
+  {% block scripts %}
+  <script src="{% static 'marine/js/load.js' %}"></script>
+  {% endblock scripts %}

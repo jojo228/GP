@@ -1,0 +1,100 @@
+ .input {
+     &-error_msg {
+         padding-top: 3.5rem;
+         z-index: 2;
+     }
+     &-bx_error {
+         position: absolute;
+         width: 100%;
+         font-size: var(--normal-font-size);
+         border: 1px solid var(--border-color);
+         border-radius: .5rem;
+         outline: none;
+         padding: 1rem;
+         z-index: 2;
+         border-color: red;
+     }
+     &-bx {
+         position: absolute;
+         width: 100%;
+         font-size: var(--normal-font-size);
+         border: 1px solid var(--border-color);
+         border-radius: .5rem;
+         outline: none;
+         padding: 1rem;
+         z-index: 2;
+     }
+     &-lbl {
+         position: absolute;
+         left: 1rem;
+         top: 1rem;
+         padding: 0 .25rem;
+         background-color: var(--container-color);
+         color: black;
+         font-size: var(--normal-font-size);
+         transition: .3s;
+     }
+     /*Input focus move up label*/
+     &-bx:focus+.input-lbl,
+     &__add-label {
+         top: -.5rem;
+         left: .8rem;
+         color: black;
+         font-size: var(--small-font-size);
+         font-weight: 500;
+         z-index: 10;
+     }
+     /*Input focus sticky top label*/
+     &-bx:not(:placeholder-shown).input-bx:not(:focus)+.input-lbl {
+         top: -.5rem;
+         left: .8rem;
+         font-size: var(--small-font-size);
+         font-weight: 500;
+         z-index: 10;
+     }
+     /*Input focus*/
+     &-bx:focus {
+         border: 1.5px solid black;
+     }
+     /*Input focus move up label*/
+     &-bx_error:focus+.input-lbl,
+     &__add-label {
+         top: -.5rem;
+         left: .8rem;
+         color: black;
+         font-size: var(--small-font-size);
+         font-weight: 500;
+         z-index: 10;
+     }
+     /*Input focus sticky top label*/
+     &-bx_error:not(:placeholder-shown).input-bx_error:not(:focus)+.input-lbl {
+         top: -.5rem;
+         left: .8rem;
+         font-size: var(--small-font-size);
+         font-weight: 500;
+         z-index: 10;
+     }
+     /*Input focus*/
+     &-bx_error:focus {
+         border: 1.5px solid black;
+     }
+     &-hidden {
+         border: none;
+         overflow: none;
+         background-color: transparent;
+     }
+     &-hidden:focus {
+         border: none;
+         overflow: none;
+         background-color: transparent;
+     }
+ }
+ 
+ .link {
+     text-decoration-line: none;
+     color: #000000;
+ }
+ 
+ tr {
+     cursor: pointer;
+ }

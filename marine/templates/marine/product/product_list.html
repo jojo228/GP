@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+{% load static %}{% load humanize %}
+
+
+{% block title %}
+    <title>Produits</title>
+{% endblock title %}
+
+{% block product %}
+<a class="sidebar__link active" href="{% url 'list_product' %}">
+{% endblock product %}
+
+{% block main %}
+
+
+<div class="sales">
+        
+    <table class="sales__table num" id="printableTable">
+        <caption>{% if request.resolver_match.url_name == 'alert_list_product' %}Liste des produits en dessous de la quantité d'alerte <a href="{% url 'alert_list_product_print' %}">Imprimer</a>{% else %} Liste des produits {% endif %}</caption>
+
+        <thead class="sales__headers">
+            <tr >
+                <th id='numero' class="sales__table__data">№</th>
+                <th id='name' class="sales__table__data">Désignation</th>
+                <th id='pu' class="sales__table__data">Prix unitaire</th>
+
+                {% if user.is_staff %}
+                <th id='qd' class="sales__table__data">Quantité en magasin</th>
+                {% endif %}
+
+               
+                <th id='qd1' class="sales__table__data">Quantité en GP Annexe 1</th>
+                
+                
+                <!--- <th id='qd' class="sales__table__data">Quantité en boutique</th> --->
+                
+
+                {% if user.is_staff %}
+                <th id='date' class="sales__table__data">Date modifié</th>
+                {% endif %}
+
+            </tr>
+        </thead>
+
+        <tbody>
+            
+            {% for product in object_list %}
+                {% if user.is_staff %}
+                <tr onclick="window.location='{{ product.get_absolute_url }}';">
+                {% else %}
+                <tr>
+                {% endif %}
+                    <td></td>
+                    <td class="sales__table__data">{{product.designation}}</td>
+                    <td class="sales__table__data">{{product.unit_price|intcomma}}</td>
+
+                    {% if user.is_staff %}
+                    <td class="sales__table__data">{{product.marine_warehouse_related.quantity|intcomma}}  {% if user.is_staff %}<br> {{product.marine_warehouse_related.quantity_amount|intcomma}} FCFA {% endif %}</td>
+                    {% endif %}
+
+                   
+                    <td class="sales__table__data">{{product.bm1_quantity|intcomma}}</td>
+                    
+                    
+                    <!--- <td class="sales__table__data">{{product.store_quantity|intcomma}}</td> --->
+                    
+                    {% if user.is_staff %}
+                    <td class="sales__table__data">{{product.date_modified|date:"d-m-Y"}}</td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+
+        </tbody>
+
+        
+        
+    </table>
+</div>
+
+<!-- Pagination -->
+<div class="pagination" style="display: flex; justify-content: center;">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; Début</a>
+            <a href="?page={{ page_obj.previous_page_number }}{% if 'list' in request.resolver_match.url_name %} {{ request.get_full_path }}&page={{ page_obj.previous_page_number }} {% endif %}">précédent</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} sur {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }} {% if 'list' in request.resolver_match.url_name %} {{ request.get_full_path }}&page={{ page_obj.next_page_number }} {% endif %}">suivant</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">Fin &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+
+{% if user.is_staff %}
+<a class="btn-rnd" href="{% url 'create_product' %}">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+    </svg>
+</a>
+{% endif %}
+
+{% endblock main %}
+
+
+
+{% if request.resolver_match.url_name == 'alert_list_product' %}
+{% block js %}
+    <script src="{% static 'marine/js/alert.js' %}"></script>
+{% endblock js %}
+{% endif %}
+

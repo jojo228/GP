@@ -1,0 +1,47 @@
+.product {
+    margin: 5rem 5rem;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    row-gap: 3rem;
+    column-gap: 3rem;
+    grid-template-areas: ". designation designation ." "category category unit unit" "unit_price unit_price discount_price discount_price " "warehouse-quantity_alert warehouse-quantity_alert store-quantity_alert store-quantity_alert";
+}
+
+.id_product-designation {
+    grid-area: designation;
+}
+
+.id_product-unit {
+    grid-area: unit;
+}
+
+.id_product-category {
+    grid-area: category;
+}
+
+.id_product-unit_price {
+    grid-area: unit_price;
+}
+
+.id_product-discount_price {
+    grid-area: discount_price;
+}
+
+.id_warehouse-quantity_alert {
+    grid-area: warehouse-quantity_alert;
+}
+
+.id_store-quantity_alert {
+    grid-area: store-quantity_alert;
+}
+
+.blink_me {
+    animation: blinker 1s linear infinite;
+    color: red;
+}
+
+@keyframes blinker {
+    50% {
+        opacity: 0;
+    }
+}
