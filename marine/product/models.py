@@ -9,7 +9,43 @@ related_query_name_string = "%(app_label)s_%(class)ss"
 
 
 class Product(models.Model):
+
+    # product categorization
+    PIPES = "PP"
+    CABLES = "CB"
+    FANS = "FN"
+    SALES = "SL"
+    PRODUCT_CATEGORY_CHOICES = [
+        (CABLES, "Câbles"),
+        (FANS, "Ventilateurs"),
+        (PIPES, "Tuyaus"),
+        (SALES, "Ventes"),
+    ]
+
+    # product unit type
+    METER = "M"
+    KILOGRAM = "KG"
+    LITER = "L"
+    NUMBER = "NUM"
+    BOX = "BX"
+
+    PRODUCT_UNIT_CHOICES = [
+        (BOX, "Boîte.s"),
+        (KILOGRAM, "Kilogramme.s"),
+        (LITER, "Littre.s"),
+        (METER, "Mètre.s"),
+        (NUMBER, "Nombre.s"),
+    ]
+
     designation = models.CharField(max_length=200, unique=True)
+    category = models.CharField(
+        max_length=2,
+        choices=PRODUCT_CATEGORY_CHOICES, null=True
+    )
+    unit = models.CharField(
+        max_length=3,
+        choices=PRODUCT_UNIT_CHOICES, null=True
+    )
     unit_price = models.IntegerField(default=0)
     date_added = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)

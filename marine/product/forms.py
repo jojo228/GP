@@ -16,11 +16,15 @@ class ProductForm(forms.ModelForm):
         model = Product
         fields = [
             "designation",
+            "category",
+            "unit",
             "unit_price",
         ]
         labels = {
+            "category": "Catégorie",
             "designation": "Désignation",
             "unit_price": "Prix unitaire",
+            "unit": "Unité",
         }
 
 

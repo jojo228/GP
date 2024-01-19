@@ -29,6 +29,7 @@ class SaleListView(LoginRequiredMixin, ListView):
         # Dictionary to map the category search
         category_keyword = {
             "PRO_FORMAT": "PF",
+            "OTR": "OTR",
             "COMPTANT": "CT",
             "CREDIT": "CR",
         }

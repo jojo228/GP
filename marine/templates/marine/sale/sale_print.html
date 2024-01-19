@@ -181,7 +181,7 @@
                         <tr>
                             <th>NET A PAYER :</th>
                             <td style="font-size: 30px; font-weight: bold; ">
-                                {{sale.total_amount|floatformat:0|intcomma}}</td>
+                                {{sale.net_amount|floatformat:0|intcomma}}</td>
                         </tr>
 
                         {% if sale.category == 'CR' %}

@@ -74,16 +74,16 @@
                             </thead>
                             <tbody class="table border-dark mb-3 " style="text-align: center; ">
                                 <tr>
-                                    <th scope="row " style="border-color:black; text-align: center; ">GP_Annexe_1</th>
-                                    <td style="border-color:black; text-align: center; ">{% if GP_Annexe_1.sold.amount %} {{GP_Annexe_1.sold.amount|intcomma}} {% else %} 0 {% endif %}FCFA</td>
+                                    <th scope="row " style="border-color:black; text-align: center; ">GP1</th>
+                                    <td style="border-color:black; text-align: center; ">{% if GP1.sold.amount %} {{GP1.sold.amount|intcomma}} {% else %} 0 {% endif %}FCFA</td>
                                     <td style="border-color:black; text-align: center; ">
                                         {% if billing_BM1.total_amount_paid %} {{billing_BM1.total_amount_paid}} {% else %} 0 {% endif %}FCFA</td>
                                     <td style="border-color:black; text-align: center; ">
-                                        {% if GP_Annexe_1.sold.amount_credit %} {{GP_Annexe_1.sold.amount_credit}} {% else %} 0 {% endif %} FCFA</td>
+                                        {% if GP1.sold.amount_credit %} {{GP1.sold.amount_credit}} {% else %} 0 {% endif %} FCFA</td>
                                     <td style="border-color:black; text-align: center; ">
-                                        {% if GP_Annexe_1.store.items_quantity %}{{GP_Annexe_1.store.items_quantity|intcomma}}{% else %}0{% endif %} Articles
+                                        {% if GP1.store.items_quantity %}{{GP1.store.items_quantity|intcomma}}{% else %}0{% endif %} Articles
                                     </td>
-                                    <td style="border-color:black; text-align: center; ">{% if GP_Annexe_1.store.amount %} {{GP_Annexe_1.store.amount|intcomma}} {% else %} 0 {% endif %} FCFA</td>
+                                    <td style="border-color:black; text-align: center; ">{% if GP1.store.amount %} {{GP1.store.amount|intcomma}} {% else %} 0 {% endif %} FCFA</td>
                                 </tr>
                                 <tr>
                                     <th scope="row " style="border-color:black; text-align: center; ">BM2</th>

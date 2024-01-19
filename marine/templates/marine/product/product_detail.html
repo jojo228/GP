@@ -21,6 +21,14 @@
                         <label for=""  class="input-lbl">désignation</label>
                     </div>
                     <div class="user__div add__name ">
+                        <span class="input-bx">{{product.get_category_display}}</span>
+                        <label for=""  class="input-lbl">catégorie</label>
+                    </div>
+                    <div class="user__div add__name ">
+                        <span class="input-bx">{{product.get_unit_display}}</span>
+                        <label for=""  class="input-lbl">unité</label>
+                    </div>
+                    <div class="user__div add__name ">
                         <span class="input-bx">{{product.unit_price|intcomma}}</span>
                         <label for=""  class="input-lbl">prix unitaire</label>
                     </div>

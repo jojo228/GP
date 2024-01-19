@@ -4,6 +4,11 @@ from django.views.generic import (
     DetailView,
 )
 from marine.computer.models import Computer
+from django.db.models import Q, F, Sum, When, Case, Value, Count
+
+
+from num2words import num2words
+
 
 from marine.methods import (
     bill_alert_function,
@@ -54,11 +59,34 @@ class SalePrintView(LoginRequiredMixin, DetailView):
 
         items = SaleItem.objects.filter(sale_id=self.kwargs["pk"], is_original=True)
 
+        if context["sale"].category == "OTR":
+            net_amount, total_amount = 0.0, 0.0
+            for item in items:
+                item.price = round((item.price * 100) / 118, 2)
+                item.net_amount = item.price * item.quantity
+                item.discount_price = round((item.discount_price * 100) / 118, 2)
+                item.total_amount = round(item.net_amount - item.discount_price, 2)
+                total_amount += item.net_amount
+                net_amount += item.net_amount
+            context["sale"].net_amount = net_amount
+            context["sale"].tax_amount = round((18 * net_amount) / 100, 2)
+            context["sale"].net_amount = int(
+                round(net_amount + context["sale"].tax_amount, 0)
+            )
+            context["sale"].amount_in_letters = num2words(
+                context["sale"].total_amount, lang="fr"
+            )
+
+        context["remise"] = items.aggregate(
+            remise=Sum(F("price") * F("quantity") - F("total_amount"))
+        )["remise"]
+
         context["items"] = items
 
         context["billings"] = Billing.objects.filter(sale_id=self.kwargs["pk"])[:1]
 
         return context
+
 
 
 class DeliveryPrintView(LoginRequiredMixin, DetailView):

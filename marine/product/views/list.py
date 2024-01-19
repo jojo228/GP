@@ -30,13 +30,13 @@ class ProductListView(LoginRequiredMixin, ListView):
             bm1_quantity=Sum(
                 "marine_stores__quantity",
                 filter=Q(
-                    marine_stores__shop__name__icontains="GP_Annexe_1",
+                    marine_stores__shop__name__icontains="GP1",
                 ),
             ),
             bm1_amount=Sum(
                 "marine_stores__quantity_amount",
                 filter=Q(
-                    marine_stores__shop__name__icontains="GP_Annexe_1",
+                    marine_stores__shop__name__icontains="GP1",
                 ),
             ),
             bm2_quantity=Sum(
@@ -108,13 +108,13 @@ class ProductInWarehouseListView(LoginRequiredMixin, ListView):
                 bm1_quantity=Sum(
                     "marine_stores__quantity",
                     filter=Q(
-                        marine_stores__shop__name__icontains="GP_Annexe_1",
+                        marine_stores__shop__name__icontains="GP1",
                     ),
                 ),
                 bm1_amount=Sum(
                     "marine_stores__quantity_amount",
                     filter=Q(
-                        marine_stores__shop__name__icontains="GP_Annexe_1",
+                        marine_stores__shop__name__icontains="GP1",
                     ),
                 ),
                 bm2_quantity=Sum(
@@ -202,13 +202,13 @@ class ProductListAlertView(LoginRequiredMixin, ListView):
                     bm1_quantity=Sum(
                         "marine_stores__quantity",
                         filter=Q(
-                            marine_stores__shop__name__icontains="GP_Annexe_1",
+                            marine_stores__shop__name__icontains="GP1",
                         ),
                     ),
                     bm1_amount=Sum(
                         "marine_stores__quantity_amount",
                         filter=Q(
-                            marine_stores__shop__name__icontains="GP_Annexe_1",
+                            marine_stores__shop__name__icontains="GP1",
                         ),
                     ),
                     bm2_quantity=Sum(
@@ -302,13 +302,13 @@ class ProductListAlertPrintView(LoginRequiredMixin, ListView):
                     bm1_quantity=Sum(
                         "marine_stores__quantity",
                         filter=Q(
-                            marine_stores__shop__name__icontains="GP_Annexe_1",
+                            marine_stores__shop__name__icontains="GP1",
                         ),
                     ),
                     bm1_amount=Sum(
                         "marine_stores__quantity_amount",
                         filter=Q(
-                            marine_stores__shop__name__icontains="GP_Annexe_1",
+                            marine_stores__shop__name__icontains="GP1",
                         ),
                     ),
                     bm2_quantity=Sum(

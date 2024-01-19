@@ -12,11 +12,13 @@ class Sale(BillCommonInfo):
     """Sale model represents a sale transaction and inherits from BillCommonInfo model."""
     # Constants for bill categories
     PRO_FORMAT = "PF"
+    OTR = "OTR"
     COMPTANT = "CT"
     CREDIT = "CR"
     BILL_CATEGORY_CHOICES = [
         (COMPTANT, "Comptant"),
         (CREDIT, "Credit"),
+        (OTR, "OTR"),
         (PRO_FORMAT, "Proforma"),
     ]
 

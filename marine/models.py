@@ -89,7 +89,7 @@ class BillCommonInfo(models.Model):
         if self.is_temporary:
             if self.__class__.__name__ == "Sale":
                 # create a dictionnary for category with the corresponding string
-                category_string = {"PF": "PRO-", "CR": "FC-", "CT": "FCO-"}
+                category_string = {"PF": "PRO-", "OTR": "GP", "CR": "FC-", "CT": "FCO-"}
                 self.bill_identifier = category_string[self.category]
 
             # Get the last validated bill's number

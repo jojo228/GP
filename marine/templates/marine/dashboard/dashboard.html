@@ -1,299 +1,70 @@
-{% extends 'base.html' %}
-{% load static %}
-{% load mathfilters %}
-{% load humanize %}
-
-{% block title %}
-<title>Dashboard</title>
-{% endblock title %}
-
+{% extends 'base.html' %} 
 
 {% block dashboard %}
 <a class="sidebar__link active" href="{% url 'dashboard' %}">
 {% endblock dashboard %}
 
 {% block main %}
-
-{% if user.is_staff %}
 <a href="{% url 'dashboard_print' %}">Imprimer</a>
-{% endif %}
-
 <div class="main__card-section">
 
-    <!-- ==== Boutiques ==== -->
 
-    {% if user.is_staff %}
+    {% for category in object_list %}
+
+    <div class="card bcolor">
+        <div class="card__content">
+            <div class="card__value">
+                {{category.category_display}}
+            </div>
+
+            <div class="card__detail">
+                <h3>
+                Montant total du stock
+                </h3>
+                {% if category.warehouses_amount %} {{category.warehouses_amount}} {% else %} 0 {% endif %}FCFA
+                
+            </div>
+        </div>
+
+        <div class="card__content">
+            <div class="card__detail">
+                <h3>
+                Vente du jour
+                </h3>
+                {% if category.solds_amount %} {{category.solds_amount}} {% else %} 0 {% endif %}FCFA
+                
+            </div>
+            <div class="card__detail">
+                <h3>
+                Crédit du jour
+                </h3>
+                {% if category.solds_amount_credit %} {{category.solds_amount_credit}} {% else %} 0 {% endif %} FCFA
+                
+            </div>
+        </div>
+
+      
+
+    </div>
     
+    {% endfor %}
+
     <div class="card bcolor">
+      
 
         <div class="card__content">
-                GP_Annexe_1
             <div class="card__value">
+                Règlements du jour
             </div>
-
             <div class="card__detail">
-                <h3>
-                    Articles vendus du jour
-                </h3>
-                {% if GP_Annexe_1.sold.items_quantity %} {{GP_Annexe_1.sold.items_quantity|intcomma}} {% else %} 0 {% endif %} Articles
+                {% if billing_GP1.total_amount_paid %} {{billing_GP1.total_amount_paid}} {% else %} 0 {% endif %}FCFA
+                
             </div>
         </div>
 
-        <br>
-
-        <div class="card__content">
-            <div class="card__detail">
-                <h3>
-                    Vente du jour
-                </h3>
-                {% if GP_Annexe_1.sold.amount %} {{GP_Annexe_1.sold.amount|intcomma}} {% else %} 0 {% endif %}FCFA
-            </div>
-
-            <div class="card__detail">
-                <h3>
-                    Règlements du jour
-                </h3>
-                {% if billing_BM1.total_amount_paid %} {{billing_BM1.total_amount_paid}} {% else %} 0 {% endif %}FCFA
-            </div>
-
-            <div class="card__detail">
-                <h3>
-                    Crédit du jour
-                </h3>
-                {% if GP_Annexe_1.sold.amount_credit %} {{GP_Annexe_1.sold.amount_credit}} {% else %} 0 {% endif %} FCFA
-            </div>
-        </div>
-
-        <br>
-
-        <div class="card__content">
-            <div class="card__detail">
-                <h3>
-                    Quantité en Stock
-                </h3>
-                {% if GP_Annexe_1.store.items_quantity %}{{GP_Annexe_1.store.items_quantity|intcomma}}{% else %}0{% endif %} Articles
-            </div>
-
-            <div class="card__detail">
-                <h3>
-                    Montant du Stock
-                </h3>
-                {% if GP_Annexe_1.store.amount %} {{GP_Annexe_1.store.amount|intcomma}} {% else %} 0 {% endif %} FCFA
-            </div>
-
-            <div class="card__detail">
-                <h3>
-                    Niveau de Stock
-                </h3>
-                {% if GP_Annexe_1.store.quantity_percentage %}{{GP_Annexe_1.store.quantity_percentage | floatformat:2}}{% else %}0{% endif %} %
-            </div>
-
-        </div>
-    </div>
-
-    <div class="card bcolor">
-        <div class="card__content">
-                BM2
-            <div class="card__detail">
-                <h3>
-                    Articles vendus du jour
-                </h3>
-                {% if BM2.sold.items_quantity %} {{BM2.sold.items_quantity|intcomma}} {% else %} 0 {% endif %} Articles
-            </div>
-        </div>
-        <br>
-
-        <div class="card__content">
-            <div class="card__detail">
-                <h3>
-                    Vente du jour
-                </h3>
-                {% if BM2.sold.amount %} {{BM2.sold.amount|intcomma}} {% else %} 0 {% endif %}FCFA
-            </div>
-
-            <div class="card__detail">
-                <h3>
-                    Règlements du jour
-                </h3>
-                {% if billing_BM2.total_amount_paid %} {{billing_BM2.total_amount_paid}} {% else %} 0 {% endif %}FCFA
-            </div>
-
-            <div class="card__detail">
-                <h3>
-                    Crédit du jour
-                </h3>
-                {% if BM2.sold.amount_credit %} {{BM2.sold.amount_credit}} {% else %} 0 {% endif %} FCFA
-            </div>
-        </div>
-        <br>
-
-        <div class="card__content">
-            <div class="card__detail">
-                <h3>
-                    Quantité en Stock
-                </h3>
-                {% if BM2.store.items_quantity %}{{BM2.store.items_quantity|intcomma}}{% else %}0{% endif %} Articles
-            </div>
-
-            <div class="card__detail">
-                <h3>
-                    Montant du Stock
-                </h3>
-                {% if BM2.store.amount %} {{BM2.store.amount|intcomma}} {% else %} 0 {% endif %} FCFA
-            </div>
-
-            <div class="card__detail">
-                <h3>
-                    Niveau de Stock
-                </h3>
-                {% if BM2.store.quantity_percentage %}{{BM2.store.quantity_percentage | floatformat:2}}{% else %}0{% endif %} %
-            </div>
-        </div>
-    </div>
-
-    <div class="card bcolor">
-        <div class="card__content">
-                BM3
-            <div class="card__detail">
-                <h3>
-                    Articles vendus du jour
-                </h3>
-                {% if BM3.sold.items_quantity %} {{BM3.sold.items_quantity|intcomma}} {% else %} 0 {% endif %} Articles
-            </div>
-        </div>
-        <br>
-
-        <div class="card__content">
-            <div class="card__detail">
-                <h3>
-                    Vente du jour
-                </h3>
-                {% if BM3.sold.amount %} {{BM3.sold.amount|intcomma}} {% else %} 0 {% endif %}FCFA
-            </div>
-
-            <div class="card__detail">
-                <h3>
-                    Règlements du jour
-                </h3>
-                {% if billing_BM3.total_amount_paid %} {{billing_BM3.total_amount_paid}} {% else %} 0 {% endif %}FCFA
-            </div>
-
-            <div class="card__detail">
-                <h3>
-                    Crédit du jour
-                </h3>
-                {% if BM3.sold.amount_credit %} {{BM3.sold.amount_credit}} {% else %} 0 {% endif %} FCFA
-            </div>
-        </div>
-        <br>
-
-        <div class="card__content">
-            <div class="card__detail">
-                <h3>
-                    Quantité en Stock
-                </h3>
-                {% if BM3.store.items_quantity %}{{BM3.store.items_quantity|intcomma}}{% else %}0{% endif %} Articles
-            </div>
-
-            <div class="card__detail">
-                <h3>
-                    Montant du Stock
-                </h3>
-                {% if BM3.store.amount %} {{BM3.store.amount|intcomma}} {% else %} 0 {% endif %} FCFA
-            </div>
-
-            <div class="card__detail">
-                <h3>
-                    Niveau de Stock
-                </h3>
-                {% if BM3.store.quantity_percentage %}{{BM3.store.quantity_percentage | floatformat:2}}{% else %}0{% endif %} %
-            </div>
-        </div>
-    </div>
-
-    <!-- ==== Magazin ==== -->
-
-    <div class="card ccolor">
-        <div class="card__content">
-            <a href="{% url 'product_in_warehouse' %}">
-            <div class="card__value">
-                Magazin
-            </div>
-        </a>
-            
-        </div>
-
-        <div class="card__content">
-            <div class="card__detail">
-                <h3>
-                    Quantité en Stock
-                </h3>
-
-
-                {% if magasin.warehouse_items_quantity %}{{magasin.warehouse_items_quantity|intcomma}}{% else %}0{% endif %} Articles
-
-            </div>
-
-            <div class="card__detail">
-                <h3>
-                    Montant du Stock
-                </h3>
-                {% if magasin.warehouse_amount %} {{magasin.warehouse_amount|intcomma}} {% else %} 0 {% endif %} FCFA
-            </div>
-
-            <div class="card__detail">
-                <h3>
-                    Niveau de Stock
-                </h3>
-
-                {% if magasin.warehouse_quantity_percentage %}{{magasin.warehouse_quantity_percentage | floatformat:2}}{% else %}0{% endif %} %
-
-            </div>
-        </div>
+      
 
     </div>
-
-    {% else %}
     
-    <div class="card bcolor">
-        <div class="card__content">
-
-            <div class="card__value">
-                {{shop.name}}
-            </div>
-
-            <div class="card__detail">
-                <h3>
-                    Articles vendus du jour
-                </h3>
-                {% if product.sold.items_quantity %} {{product.sold.items_quantity|intcomma}} {% else %} 0 {% endif %} Articles
-            </div>
-            
-
-        </div>
-        <br>
-
-        
-        <div class="card__content">
-
-            <div class="card__detail">
-                <h3>
-                    Quantité en Stock
-                </h3>
-                {% if product.store.items_quantity %}{{product.store.items_quantity|intcomma}}{% else %}0{% endif %} Articles
-            </div>
-
-            <div class="card__detail">
-                <h3>
-                    Niveau de Stock
-                </h3>
-                {% if product.store.quantity_percentage %}{{product.store.quantity_percentage | floatformat:2}}{% else %}0{% endif %} %
-            </div>
-
-        </div>
-    </div>
-
-    {% endif %}
-
 </div>
 {% endblock main %}

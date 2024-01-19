@@ -1,7 +1,10 @@
 import datetime
 
 import pandas as pd
+import math
+
 from django.db.models import F
+from marine.customer.models import Customer
 from marine.employee.models import Employee
 
 from marine.product.models import Product, Warehouse
@@ -58,32 +61,47 @@ def objects_to_df(model, fields=None, exclude=None, date_cols=None, **kwargs):
 
 # headers of the table
 headers = [
-    "designation",
-    "prix_vente",
-    "stock_alerte_magazin",
-    "quantite_en_stock_magazin",
+    ["CATEGORIE"],
+    ["DESIGNATION"],
+    ["UNIT"],
+    ["QTES_EN_STOCK"],
+    ["STOCK_MIN"],
+    ["PRIX"],
 ]
 
 
+# function to convert category name
+def category_mapping(category):
+    categories_dict = {
+        "TUYAUX": "PP",
+        "CABLE": "CB",
+        "VENTILLATEUR": "FN",
+        "VENTE": "SL",
+    }
+    return categories_dict[category]
+
+
 def product_loading(file):
-    data_df = pd.detail_excel(file, sheet_name=0).fillna(0)
-    data_df = data_df[headers]
+    data_df = pd.read_excel(file, sheet_name=0).fillna(0)
+    data_df["CATEGORIE"] = data_df["CATEGORIE"].apply(lambda x: category_mapping(x))
     for _, row in data_df.iterrows():
         # check if a product exist
         product, _ = Product.objects.get_or_create(
-            designation=row.designation,
+            designation=row.DESIGNATION,
         )
-        product.unit_price = row.prix_vente
+        product.category = row.CATEGORIE
+        product.unit_price = row.PRIX
+        product.unit = row.UNIT
 
         # create or link warehouse information to product
         try:
-            product.marine_warehouse_related.quantity = row.quantite_en_stock_magazin
-            product.marine_warehouse_related.quantity_alert = row.stock_alerte_magazin
+            product.marine_warehouse_related.quantity = row.QTES_EN_STOCK
+            product.marine_warehouse_related.quantity_alert = row.STOCK_MIN
         except Warehouse.DoesNotExist:
             warehouse = Warehouse(
                 product=product,
-                quantity=row.quantite_en_stock_magazin,
-                quantity_alert=row.stock_alerte_magazin,
+                quantity=row.QTES_EN_STOCK,
+                quantity_alert=row.STOCK_MIN,
             )
             warehouse.save()
 
@@ -101,6 +119,28 @@ def product_loading(file):
             Store.objects.get_or_create(product=product, shop=shop)
             # get or create a sold instance
             Sold.objects.get_or_create(product=product, shop=shop)
+        msga = '<span style="color: green;">Chargement réussi</span>'
+    return msga
+
+
+# load the CLIENTs Data from excel into the db
+def customer_loading_method(file):
+    data_df = pd.read_excel(file, sheet_name=0)
+    for _, row in data_df.iterrows():
+        # check if a product exist
+
+        for contact in str(row.CONTACT).split("/"):
+            contact = contact.replace("+", "00").replace(" ", "")
+            try:
+                if math.isnan(float(contact)):
+                    customer = Customer.objects.create(name=row.NOM_DU_CLIENT)
+                else:
+                    contact = int(contact)
+                    customer, created = Customer.objects.get_or_create(contact=contact)
+                    customer.name = row.NOM_DU_CLIENT
+                    customer.save()
+            except ValueError:
+                pass
         msga = '<span style="color: green;">Chargement réussi</span>'
     return msga
 
